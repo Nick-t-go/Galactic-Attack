@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Plane Game - NunchuckJs</title>
+    <meta name="root" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width, height=device-height" />
+    <link href="stylesheets/planegame.css" rel="stylesheet" />
+    <script src="js/nunchuck.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <link href='http://fonts.googleapis.com/css?family=Montserrat:700' rel='stylesheet' type='text/css'>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>player_data = {}; </script>
+
+    <script>
+      var socket = io();
+
+      var n = nunchuck.init('host', socket);
+
+      var players = {};
+
+      var numPlayers = 1234;
+
+      n.onJoin(function(data){
+
+        if (!players[data.username]){
+          players[data.username] = numPlayers;
+          numPlayers+=1;
+          createPlane(players[data.username]);
+          $('.users').append("<br><strong>" + data.username + "</strong>")
+        }
+
+        n.receive(function(data){
+          if (players[data.username]){
+            data.id = players[data.username];
+            movePlane(data)
+          }
+        })
+      });
+
+      $(document).ready(function(){
+        $('.code').text(n.roomId)
+      });
+
+    </script>
+
+    <style>
+
+      .code {
+        position: fixed;
+        font-size: 15em;
+        opacity: .5;
+        right: .2em;
+        bottom: 0;
+      }
+
+      .users {
+        position: fixed;
+        font-family: 'Montserrat', 'Helvetic Neue', 'Helvetica', sans-serif;
+        font-size: 1.2em;
+        top: 8px;
+        left: 8px;
+      }
+    </style>
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-53430137-1', 'auto');
+  ga('send', 'pageview');
+
+    </script>
+  </head>
+
+  <body>
+
+    <div class="code"></div>
+
+    <div class="users">USERS ONLINE:</div>
+
+
+    <script src="plugins/cutjs/cut-core.js"></script>
+    <script src="plugins/cutjs/cut-mouse.js"></script>
+    <script src="plugins/cutjs/cut-loader.web.js"></script>
+    <script src="plugins/cutjs/planegame.js"></script>
+    <script src="plugins/cutjs/planegame_textures.js"></script>
+    <script src="plugins/cutjs/receiver.js"></script>
+
+  </body>
+
+</html>

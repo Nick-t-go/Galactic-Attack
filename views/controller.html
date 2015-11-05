@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimal-ui">
+    <title> Base! </title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="js/nunchuck.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/controller.js"></script>
+
+
+    <!-- Stylin' -->
+    <link href="stylesheets/normalize.css" rel="stylesheet" type="text/css">
+    <link href="stylesheets/animate.css" rel="stylesheet" type="text/css">
+    <link href='http://fonts.googleapis.com/css?family=Montserrat:700' rel='stylesheet' type='text/css'>
+
+    <link href="stylesheets/controller.css" rel="stylesheet" type="text/css">
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-53430137-1', 'auto');
+  ga('send', 'pageview');
+
+    </script>
+  </head>
+  <body>
+
+    <button class="big connect" onclick="bounceIn('join')">
+      CONNECT
+    </button>
+    <button class="big gamepad" onclick="bounceIn('controller')">
+      GAMEPAD
+    </button>
+
+    <section id="join">
+      <div class="content">
+
+        <button class="close" onclick="bounceOut('join')"></button>
+
+        <input type="text" id="username" placeholder="Username">
+        <br>
+        <input type="tel" id="roomId" placeholder="Room Id">
+        <br>
+        <button class="outline" onclick="join()">JOIN</button>
+        <br>
+        <button class="outline" onclick="bounceOut('join')">CANCEL</button>
+
+      </div>
+    </section>
+
+    <section id="controller">
+
+      <div class="content">
+
+        <button class="close" onclick="bounceOut('controller')"></button>
+
+        <div class="d-pad">
+          <button class="nunchuck-button horizontal" id="LEFT"></button>
+          <button class="nunchuck-button vertical" id="DOWN"></button>
+          <button class="nunchuck-button vertical" id="UP"></button>
+          <button class="nunchuck-button horizontal" id="RIGHT"></button>
+        </div>
+
+        <div class="left commands">
+          <button class="nunchuck-button" id="START">START</button>
+          <button class="nunchuck-button" id="SELECT">SELECT</button>
+        </div>
+
+        <div class="right commands">
+          <button class="nunchuck-button" id="B">B</button>
+          <button class="nunchuck-button" id="A">A</button>
+        </div>
+
+      </div>
+
+    </section>
+
+  </body>
+</html>
