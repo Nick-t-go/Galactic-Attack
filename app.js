@@ -1,6 +1,6 @@
 var express = require('express');
 var path = require('path');
-var favicon = require('static-favicon');
+
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
@@ -12,12 +12,12 @@ var app = express();
 // Configure Express
 var http = require('http').Server(app);
 var io = require('socket.io')(http); // Add socket.io
-app.use(favicon());
+
 app.use(logger('dev'));
 
 //body parser
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
