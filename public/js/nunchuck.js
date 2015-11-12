@@ -1,11 +1,11 @@
 (function(window, document){
   'use strict';
 
-  var _instance;
+  var _instance; //instance of a socket
 
   var nunchuck = {
     get: function() {
-      return _instance;
+      return _instance;  //returns instance
     },
     init: function(type, socket){
       return _instance || new Nunchuck({
@@ -23,7 +23,7 @@
     this.id = Math.floor(Math.random()*9000) + 1000;
     this.username = "";
     this.roomId = this.id;
-    this.type = options.type;
+    this.type = options.type;  //host or client
     this.socket = options.socket;
     this.prevData = null;
     this.buttons = [];
@@ -35,12 +35,12 @@
   }
 
   Nunchuck.prototype.onJoin = function(callback){
-    nunchuck = this;
+    nunchuck = this;  //so every client that joins becomes a new nunchuck object?
     this.socket.on('nunchuck-join', function(data){
       var err;
       nunchuck.roomId = data.id;
       if (nunchuck.type === 'player'){
-        nunchuck.send();
+        nunchuck.send();  //check out send....
       }
       if (!data.success){
         err = {
@@ -63,7 +63,7 @@
 
   Nunchuck.prototype.send = function() {
 
-    if (window.DeviceOrientationEvent) {
+    if (window.DeviceOrientationEvent) { //capturing movement
       var options = {
             alphaThreshold: 5,
             betaThreshold: 5,
