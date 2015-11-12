@@ -13,8 +13,6 @@ WhackaMole.Game = function(game) {
     this.countdown;
     this.overmessage;
     this.newBomb;
-    this.secondsElapsed;
-    this.timer;
     this.music;
     this.ouch;
     this.boom;
@@ -32,6 +30,9 @@ WhackaMole.Game = function(game) {
     this.bomb;
     this.newMole;
     this.newBomb;
+    this.timerText;
+    this.counter;
+
 
     this.bmd;
 
@@ -68,14 +69,11 @@ WhackaMole.Game.prototype = {
 
     create: function() {
 
-
+        this.counter = 5;
         this.gameover = false;
-        this.secondsElapsed = 0;
-        this.timer = this.time.create(false);
-        this.timer.loop(1000, this.updateSeconds, this);
         this.cursors = this.game.input.keyboard.createCursorKeys();
-        //this.music = this.add.audio('game_audio');
-        //this.music.play('', 0, 0.3, true);
+        this.music = this.add.audio('game_audio');
+        this.music.play('', 0, 0.3, true);
         this.ouch = this.add.audio('hurt_audio');
         this.boom = this.add.audio('explosion_audio');
         this.ding = this.add.audio('select_audio');
@@ -84,39 +82,39 @@ WhackaMole.Game.prototype = {
         this.totalSpacemoles = 30;
         this.molesWhacked = 0;
 
-
         this.buildWorld();
-        this.makeItRain();
+
+        this.timerText = this.add.bitmapText(this.world.width - 75, 20, 'eightbitwonder', 'Time ' + this.counter, 20);
+
+        this.timerText.anchor.setTo(0.5, 0.5);
+        this.time.events.loop(Phaser.Timer.SECOND, this.updateTimer, this);
 
         this.socket = io();
 
-
         this.n = nunchuck.init('host', this.socket);
-
-
-
 
         this.n.onJoin(function(data) {
             this.user = {
                 username: data.username,
                 lastbutton: []
             };
-            console.log(user);
+            console.log(user)
         });
+    },
 
-
-
+    updateTimer: function() {
+        if (this.counter > 0){
+            this.counter--;
+        this.timerText.setText('Time ' + this.counter)
+        }
 
     },
 
     pointUpdate: function(){
-        this.countdown.setText('Moles Whacked ' + this.molesWhacked);
+        this.countdown.setText('Moles Whacked ' + this.molesWhacked)
     },
 
-    updateSeconds: function() {
-        this.secondsElapsed++;
 
-    },
 
     changeMode: function () {
 
@@ -179,7 +177,6 @@ WhackaMole.Game.prototype = {
         this.molesInit();
         this.bombInit();
         this.roamingSpaceMoleInit();
-        //this.spacemoleInit();
 
 
         this.crosshair = this.add.sprite(this.world.centerX,this.world.centerY, 'crosshair');
@@ -193,7 +190,6 @@ WhackaMole.Game.prototype = {
 
         this.buildEmitter();
         this.countdown = this.add.bitmapText(10, 10, 'eightbitwonder', 'Moles Whacked ' + this.molesWhacked, 20);
-        this.timer.start();
     },
 
     buildMoles: function(a,b){
@@ -222,15 +218,6 @@ WhackaMole.Game.prototype = {
 
     },
 
-
-
-
-
-    //resetSpacemole: function(sm) {
-    //    if(sm.y > this.world.height || sm.x > this.world.width) {
-    //        this.respawnSpacemole(sm);
-    //    }
-    //},
 
     roamingSpaceMoleInit: function() {
         this.bmd = null;
@@ -395,6 +382,7 @@ WhackaMole.Game.prototype = {
         if(this.gameover == false){
             this.time.events.add(Phaser.Timer.SECOND * 3, function() {
                 var randomNum = that.rnd.integerInRange(1, 100);
+                console.log(item.x, item.y);
                 randomNum % 2 == 0 ? that.buildMoles(item.x, item.y) : that.buildBomb(item.x, item.y);
             });
         }
@@ -420,8 +408,7 @@ WhackaMole.Game.prototype = {
 
 
     bombCollision: function(b) {
-        console.log(b)
-        if(b.exists && b.visible){
+        if(b.exists){
             this.molesWhacked -= 2;
             //this.pointUpdate();
             this.ouch.play();
@@ -433,7 +420,10 @@ WhackaMole.Game.prototype = {
 
     },
 
-
+    quitGame: function(pointer) {
+        this.ding.play();
+        this.state.start('StartMenu');
+    },
 
 
 
@@ -510,12 +500,22 @@ WhackaMole.Game.prototype = {
             }
         }
 
+        if(this.counter === 0){
+            this.gameover = true;
+            this.music.stop();
+            this.overmessage = this.add.bitmapText(this.world.centerX-180, this.world.centerY-40, 'eightbitwonder', 'GAME OVER', 42);
+            this.overmessage.align = "center";
+            this.overmessage.inputEnabled = true;
+            this.countdown.setText('Final Score ' + this.molesWhacked);
+            this.overmessage.events.onInputDown.addOnce(this.quitGame, this);
+        }
+
 
 
         this.physics.arcade.overlap(this.molegroup, this.burst, this.moleCollision, null, this);
         this.physics.arcade.overlap(this.bombGroup, this.burst, this.bombCollision, null, this);
         this.physics.arcade.overlap(this.roamingSpaceMole, this.burst, this.spacemoleCollision, null, this);
-    }
 
+    }
 
 };
