@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+
+
+    <script src="js/nunchuck.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script src="js/lib/phaser.js"></script>
+    <script src="js/game/states/Boot.js"></script>
+    <script src="js/game/states/Preloader.js"></script>
+    <script src="js/game/states/StartMenu.js"></script>
+    <script src="js/game/states/Game.js"></script>
+    <link href='stylesheets/normalize.css' rel="stylesheet" type="text/css">
+    <link href='stylesheets/animate.css' rel="stylesheet" type="text/css">
+    <link href='stylesheets/style.css' rel="stylesheet" type="text/css">
+
+</head>
+<body>
+<div class="code"></div>
+
+
+
+    <script type="text/javascript">
+
+        var socket = io();
+
+
+        var n = nunchuck.init('host', socket);
+
+
+        $(document).ready(function(){
+            $('.code').text(n.roomId)
+        });
+
+
+
+    </script>
+
+    <style>
+
+        .code {
+            position: fixed;
+            font-size: 13em;
+            opacity: .5;
+            right: .2em;
+            bottom: 0;
+        }
+
+        .users {
+            position: fixed;
+            font-family: 'Montserrat', 'Helvetic Neue', 'Helvetica', sans-serif;
+            font-size: 1.2em;
+            top: 8px;
+            left: 8px;
+        }
+
+    </style>
+
+    <div id="gameContainer"></div>
+
+        <script type="text/javascript">
+            window.onload = function() {
+                var game = new Phaser.Game(540, 960, Phaser.AUTO, 'gameContainer');
+                game.state.add('Boot', WhackaMole.Boot);
+                game.state.add('Preloader', WhackaMole.Preloader);
+                game.state.add('StartMenu', WhackaMole.StartMenu);
+                game.state.add('Game', WhackaMole.Game);
+                game.state.start('Boot');
+            }
+        </script>
+
+
+</body>
+</html>

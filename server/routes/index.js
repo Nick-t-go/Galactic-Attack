@@ -34,6 +34,10 @@ router.get('/part9', function(req, res){
   res.sendfile('views/part9.html');
 });
 
+router.get('/whack', function(req, res){
+  res.sendfile('views/whack.html');
+});
+
 
 router.get('/planegame', function(req, res){
   res.sendfile('views/planegame.html');
