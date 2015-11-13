@@ -172,6 +172,11 @@ WhackaMole.Game.prototype = {
         this.add.image(0, 0, 'stars');
         this.add.image(0, 0, 'land');
         this.add.image(40, 40, 'sun');
+        this.clouds = this.add.sprite(0,0, 'clouds');
+        this.clouds.anchor.set = (.5);
+        this.clouds.animations.add('flow',[0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8], true);
+        this.clouds.animations.play('flow', 1, true);
+
 
         this.buildMoleHoles();
         this.molesInit();

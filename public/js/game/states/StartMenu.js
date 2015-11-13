@@ -15,7 +15,7 @@ WhackaMole.StartMenu.prototype = {
 		this.startBG.events.onInputDown.addOnce(this.startGame, this);
 
 		this.emitter = this.add.emitter(this.world.centerX, 400);
-		this.emitter.makeParticles('star1');
+		this.emitter.makeParticles('bomb');
 		this.emitter.setXSpeed(-200, 200);
 		this.emitter.setYSpeed(-150, -250);
 		this.emitter.gravity = 300;
