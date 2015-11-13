@@ -69,7 +69,7 @@ WhackaMole.Game.prototype = {
 
     create: function() {
 
-        this.counter = 5;
+        this.counter = 30;
         this.gameover = false;
         this.cursors = this.game.input.keyboard.createCursorKeys();
         this.music = this.add.audio('game_audio');
@@ -103,9 +103,9 @@ WhackaMole.Game.prototype = {
     },
 
     updateTimer: function() {
-        if (this.counter > 0){
-            this.counter--;
-        this.timerText.setText('Time ' + this.counter)
+        this.counter--;
+        if (this.counter >= 1){
+            this.timerText.setText('Time ' + this.counter)
         }
 
     },
@@ -382,7 +382,6 @@ WhackaMole.Game.prototype = {
         if(this.gameover == false){
             this.time.events.add(Phaser.Timer.SECOND * 3, function() {
                 var randomNum = that.rnd.integerInRange(1, 100);
-                console.log(item.x, item.y);
                 randomNum % 2 == 0 ? that.buildMoles(item.x, item.y) : that.buildBomb(item.x, item.y);
             });
         }
@@ -409,6 +408,7 @@ WhackaMole.Game.prototype = {
 
     bombCollision: function(b) {
         if(b.exists){
+            //console.log("burst", this.burst.emit.x, this.burst.emit.y, "bomb:", b.x, b.y);
             this.molesWhacked -= 2;
             //this.pointUpdate();
             this.ouch.play();
@@ -441,7 +441,7 @@ WhackaMole.Game.prototype = {
             this.roamingSpaceMole.x = this.path[this.pi].x;
             this.roamingSpaceMole.y = this.path[this.pi].y;
 
-            this.pi += 3;
+            this.pi += 4;
 
             if (this.pi >= this.path.length) {
                 this.changeMode();
@@ -476,16 +476,20 @@ WhackaMole.Game.prototype = {
                 if(bomb.animations.currentAnim.loopCount == 1){
                     bomb.destroy();
                     that.respawn(bomb);
+                    bomb.kill();
                 }
 
             });
         }
+
+
 
         if(this.molegroup) {
             this.molegroup.forEach(function (mole) {
                 if(mole.animations.currentAnim.loopCount == 1 ){
                     mole.destroy();
                     that.respawn(mole);
+                    mole.kill();
                 }
 
             });
