@@ -65,6 +65,7 @@ WhackaMole.Game = function(game) {
 
 
 
+
 WhackaMole.Game.prototype = {
 
     create: function() {
@@ -101,6 +102,7 @@ WhackaMole.Game.prototype = {
             console.log(user)
         });
     },
+
 
     updateTimer: function() {
         this.counter--;
@@ -387,7 +389,7 @@ WhackaMole.Game.prototype = {
         if(this.gameover == false){
             this.time.events.add(Phaser.Timer.SECOND * 3, function() {
                 var randomNum = that.rnd.integerInRange(1, 100);
-                randomNum % 2 == 0 ? that.buildMoles(item.x, item.y) : that.buildBomb(item.x, item.y);
+                randomNum % 2 == 0 ? that.buildMoles(item.x, item.y) :  that.buildBomb(item.x, item.y);
             });
         }
 
