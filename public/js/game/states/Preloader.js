@@ -27,6 +27,8 @@ WhackaMole.Preloader.prototype = {
 		this.load.image('start', 'assets/whack_assets/images/newPressStart.png');
 		this.load.image('crosshair', 'assets/whack_assets/images/crosshair.png');
 		this.load.image('mole', 'assets/whack_assets/images/newMole.png');
+		this.load.video('intro', 'assets/whack_assets/video/intro3.webm');
+		this.load.atlasJSONHash('introfull','assets/whack_assets/images/spritesheets/intro_full.png', 'assets/whack_assets/images/spritesheets/intro_full.json');
 		this.load.atlasJSONHash('mole', 'assets/whack_assets/images/spritesheets/molepop.png', 'assets/whack_assets/images/spritesheets/molepop.json');
 		this.load.atlasJSONHash('mole', 'assets/whack_assets/images/spritesheets/molepop.png', 'assets/whack_assets/images/spritesheets/molepop.json');
 		this.load.atlasJSONHash('spacemole1', 'assets/whack_assets/images/spritesheets/spacemole.png', 'assets/whack_assets/images/spritesheets/spacemole.json');

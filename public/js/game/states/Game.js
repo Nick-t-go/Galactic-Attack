@@ -198,8 +198,8 @@ WhackaMole.Game.prototype = {
         this.add.image(40, 40, 'sun');
         this.clouds = this.add.sprite(0,0, 'clouds');
         this.clouds.anchor.set = (.5);
-        this.clouds.animations.add('flow',[0,0,1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8], true);
-        this.clouds.animations.play('flow', 1, true);
+        this.clouds.animations.add('flow',[0,1,2,3,4,5,6,7,8], true);
+        this.clouds.animations.play('flow', 2, true);
 
 
         this.buildMoleHoles();
@@ -440,7 +440,8 @@ WhackaMole.Game.prototype = {
         this.newBomb.events.onInputDown.add(this.bombCollision, this);
         this.newBomb.animations.add('grow', [1,2,3,4,5,6,7,5,6,5,7,6,5,4,3,2,1]);
         this.newBomb.animations.add('baboom', [13,14,15]);
-        this.newBomb.animations.play('grow',9, false, true);
+
+        this.newBomb.animations.play('grow',10, false, true);
     },
 
 
@@ -536,23 +537,6 @@ WhackaMole.Game.prototype = {
 
             });
         }
-
-
-        //if(this.counter === 0){
-        //    this.gameover = true;
-        //    this.music.stop();
-        //    this.overmessage = this.add.bitmapText(this.world.centerX-180, this.world.centerY-40, 'eightbitwonder', 'GAME OVER', 42);
-        //    this.overmessage.align = "center";
-        //    this.overmessage.inputEnabled = true;
-        //    if(this.scoreText) {
-        //        this.scoreText.setText('Final Score ' + this.molesWhacked);
-        //    }
-        //    this.overmessage.events.onInputDown.addOnce(this.quitGame, this);
-        //}
-
-
-
-
 
     }
 

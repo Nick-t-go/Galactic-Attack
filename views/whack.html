@@ -11,6 +11,7 @@
 
     <script src="js/lib/phaser.js"></script>
     <script src="js/game/states/Boot.js"></script>
+    <script src="js/game/states/Intro.js"></script>
     <script src="js/game/states/Preloader.js"></script>
     <script src="js/game/states/StartMenu.js"></script>
     <script src="js/game/states/Game.js"></script>
@@ -68,6 +69,7 @@
                 game.state.add('Boot', WhackaMole.Boot);
                 game.state.add('Preloader', WhackaMole.Preloader);
                 game.state.add('StartMenu', WhackaMole.StartMenu);
+                game.state.add('Intro', WhackaMole.Intro);
                 game.state.add('Game', WhackaMole.Game);
                 game.state.start('Boot');
             }

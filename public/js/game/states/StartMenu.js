@@ -30,6 +30,6 @@ WhackaMole.StartMenu.prototype = {
 	},
 
 	startGame: function (pointer) {
-		this.state.start('Game');
+		this.state.start('Intro');
 	}
 };
