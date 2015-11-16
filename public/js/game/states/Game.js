@@ -10,7 +10,7 @@ WhackaMole.Game = function(game) {
     this.spacemolegroup;
     this.burst;
     this.gameover;
-    this.countdown;
+    this.scoreText;
     this.overmessage;
     this.newBomb;
     this.music;
@@ -32,6 +32,7 @@ WhackaMole.Game = function(game) {
     this.newBomb;
     this.timerText;
     this.counter;
+    this.hammer;
 
 
     this.bmd;
@@ -84,6 +85,8 @@ WhackaMole.Game.prototype = {
         this.molesWhacked = 0;
 
         this.buildWorld();
+        this.input.onDown.add(this.hammerDown, this);
+        this.input.onUp.add(this.hammerUp, this)
 
         this.timerText = this.add.bitmapText(this.world.width - 75, 20, 'eightbitwonder', 'Time ' + this.counter, 20);
 
@@ -103,17 +106,36 @@ WhackaMole.Game.prototype = {
         });
     },
 
+    hammerDown: function(pointer) {
+        this.hammer = this.add.sprite(pointer.x, pointer.y, 'hammer')
+
+    },
+
+    hammerUp: function(pointer) {
+        this.hammer.kill();
+
+    },
+
 
     updateTimer: function() {
         this.counter--;
-        if (this.counter >= 1){
+        if (this.counter >= 1 && !this.gameover){
             this.timerText.setText('Time ' + this.counter)
+        } else{
+            this.timerText.setText('Time 0');
+            this.molesWhacked >= 0 ? this.scoreText.setText('Final Score ' + this.molesWhacked) : this.scoreText.setText('You Suck');
+            this.gameover = true;
+            this.music.stop();
+            this.overmessage = this.add.bitmapText(this.world.centerX-180, this.world.centerY-40, 'eightbitwonder', 'GAME OVER', 42);
+            this.overmessage.align = "center";
+            this.overmessage.inputEnabled = true;
+            this.overmessage.events.onInputDown.addOnce(this.quitGame, this);
         }
 
     },
 
     pointUpdate: function(){
-        this.countdown.setText('Moles Whacked ' + this.molesWhacked)
+        this.scoreText.setText('Moles Whacked ' + this.molesWhacked)
     },
 
 
@@ -196,17 +218,21 @@ WhackaMole.Game.prototype = {
 
 
         this.buildEmitter();
-        this.countdown = this.add.bitmapText(10, 10, 'eightbitwonder', 'Moles Whacked ' + this.molesWhacked, 20);
+        this.scoreText = this.add.bitmapText(10, 10, 'eightbitwonder', 'Moles Whacked ' + this.molesWhacked, 20);
     },
 
     buildMoles: function(a,b){
+        console.log("build mole", a, b);
         this.newMole = this.molegroup.create(a,b, 'mole');
         this.newMole.anchor.setTo(0.5, 0.5);
         this.physics.enable(this.newMole, Phaser.Physics.ARCADE);
         this.newMole.enableBody = true;
+        this.newMole.inputEnabled = true;
+        this.newMole.events.onInputDown.add(this.moleCollision, this);
         this.newMole.animations.add('Up',[1,2,3,4,5,6,5,6,5,6,6,5,4,3,2,1,0,0,0,0,0,0]);
         var random = this.rnd.integerInRange(10, 20);
-        this.newMole.animations.play('Up', random, true);
+        this.newMole.animations.play('Up', random, false, true);
+        console.log(this.newMole.animations);
 
 
 
@@ -249,6 +275,8 @@ WhackaMole.Game.prototype = {
         this.roamingSpaceMole.animations.add('Move',[0,1,2,3,4]);
         //var random = this.rnd.integerInRange(1, 4);
         this.roamingSpaceMole.animations.play('Move',1, true);
+        this.roamingSpaceMole.inputEnabled = true;
+        this.roamingSpaceMole.events.onInputDown.add(this.spacemoleCollision, this);
 
 
 
@@ -329,16 +357,19 @@ WhackaMole.Game.prototype = {
     pointsTweener: function(kill, kScore){
         this.pointScore = this.add.bitmapText(kill.x, kill.y, 'eightbitwonder', kScore, 20);
         this.add.tween(this.pointScore).to({ alpha: 0}, 2000, Phaser.Easing.Linear.None, true);
+        if (this.molesWhacked > 0){
+            this.scoreText.setText('Moles Whacked ' + this.molesWhacked);
+        }
 
     },
 
 
     buildEmitter:function() {
-        this.burst = this.add.emitter(0, 0, 80);
+        this.burst = this.add.emitter(0, 0, 10);
         this.burst.minParticleScale = 0.3;
-        this.burst.maxParticleScale = 1.2;
-        this.burst.minParticleSpeed.setTo(-30, 30);
-        this.burst.maxParticleSpeed.setTo(30, -30);
+        this.burst.maxParticleScale = 1;
+        this.burst.minParticleSpeed.setTo(-10, 10);
+        this.burst.maxParticleSpeed.setTo(10, -10);
         this.burst.makeParticles('explosion');
         this.input.onDown.add(this.fireBurst, this);
     },
@@ -349,27 +380,26 @@ WhackaMole.Game.prototype = {
             this.boom.volume = 0.2;
             this.burst.emitX = pointer.x;
             this.burst.emitY = pointer.y;
-            this.burst.start(true, 1000, null, 5);
+            this.burst.start(true, 100, null, 1);
         }
     },
 
 
     spacemoleCollision: function(sm) {
-        if(sm.exists){
+        if(sm.exists && !this.gameover){
             this.ouch.play();
             this.roamingSpaceMole.kill();
-            this.time.events.add(Phaser.Timer.SECOND * 3, this.roamingSpaceMoleInit, this);
-            //add explostion
+            this.time.events.add(Phaser.Timer.SECOND * 3.5, this.roamingSpaceMoleInit, this);
+            this.molesWhacked += 3;
             this.pointsTweener(sm, "500");
-            this.molesWhacked += 5;
         }
     },
 
 
 
     moleCollision: function(m) {
-        console.log(m)
-        if(m.exists){
+        console.log("mole collision:", m)
+        if(m.exists && !this.gameover){
             this.molesWhacked += 1;
             this.ouch.play();
             this.respawn(m);
@@ -401,26 +431,31 @@ WhackaMole.Game.prototype = {
     },
 
     buildBomb: function(bombX, bombY){
+        console.log("build bomb", bombX, bombY);
         this.newBomb = this.bombGroup.create(bombX, bombY, 'bombexplode');
         this.newBomb.anchor.setTo(0.5, 0.5);
         this.physics.enable(this.newBomb, Phaser.Physics.ARCADE);
         this.newBomb.enableBody = true;
+        this.newBomb.inputEnabled = true;
+        this.newBomb.events.onInputDown.add(this.bombCollision, this);
         this.newBomb.animations.add('grow', [1,2,3,4,5,6,7,5,6,5,7]);
-        // newBomb.animations.add('baboom', [13,14,15]);
-        this.newBomb.animations.play('grow',4, true);
+        this.newBomb.animations.add('baboom', [13,14,15]);
+        this.newBomb.animations.play('grow',5, false, true);
     },
 
 
 
 
     bombCollision: function(b) {
-        if(b.exists){
+
+        if(b.exists && !this.gameover){
+            b.animations.play('baboom', 4, false, true);
+            console.log('bomb collision:', b.x, b.y, this.burst.x, this.burst.y);
             //console.log("burst", this.burst.emit.x, this.burst.emit.y, "bomb:", b.x, b.y);
             this.molesWhacked -= 2;
             //this.pointUpdate();
             this.ouch.play();
             this.respawn(b);
-            b.kill();
             this.pointsTweener(b, "BAD");
 
         }
@@ -443,14 +478,14 @@ WhackaMole.Game.prototype = {
 
 
 
-        if(this.roamingSpaceMole) {
+        if(!this.gameover && this.roamingSpaceMole) {
 
             this.roamingSpaceMole.x = this.path[this.pi].x;
             this.roamingSpaceMole.y = this.path[this.pi].y;
 
             this.pi += 4;
 
-            if (this.pi >= this.path.length) {
+            if (this.pi >= this.path.length && !this.gameover) {
                 this.changeMode();
                 this.pi = 0;
             }
@@ -480,7 +515,7 @@ WhackaMole.Game.prototype = {
 
         if(this.bombGroup) {
             this.bombGroup.forEach(function (bomb) {
-                if(bomb.animations.currentAnim.loopCount == 1){
+                if(bomb.animations.currentAnim.name === "grow" && bomb.animations.currentAnim.isFinished === true){
                     bomb.destroy();
                     that.respawn(bomb);
                     bomb.kill();
@@ -493,7 +528,7 @@ WhackaMole.Game.prototype = {
 
         if(this.molegroup) {
             this.molegroup.forEach(function (mole) {
-                if(mole.animations.currentAnim.loopCount == 1 ){
+                if(mole.animations.currentAnim.isFinished == true ){
                     mole.destroy();
                     that.respawn(mole);
                     mole.kill();
@@ -502,30 +537,22 @@ WhackaMole.Game.prototype = {
             });
         }
 
-        if((this && this.countdown) && this.molesWhacked) {
-            try{
-                this.countdown.setText('Moles Whacked ' + this.molesWhacked)
-            }
-            catch(err){
-                console.log(err);
-            }
-        }
 
-        if(this.counter === 0){
-            this.gameover = true;
-            this.music.stop();
-            this.overmessage = this.add.bitmapText(this.world.centerX-180, this.world.centerY-40, 'eightbitwonder', 'GAME OVER', 42);
-            this.overmessage.align = "center";
-            this.overmessage.inputEnabled = true;
-            this.countdown.setText('Final Score ' + this.molesWhacked);
-            this.overmessage.events.onInputDown.addOnce(this.quitGame, this);
-        }
+        //if(this.counter === 0){
+        //    this.gameover = true;
+        //    this.music.stop();
+        //    this.overmessage = this.add.bitmapText(this.world.centerX-180, this.world.centerY-40, 'eightbitwonder', 'GAME OVER', 42);
+        //    this.overmessage.align = "center";
+        //    this.overmessage.inputEnabled = true;
+        //    if(this.scoreText) {
+        //        this.scoreText.setText('Final Score ' + this.molesWhacked);
+        //    }
+        //    this.overmessage.events.onInputDown.addOnce(this.quitGame, this);
+        //}
 
 
 
-        this.physics.arcade.overlap(this.molegroup, this.burst, this.moleCollision, null, this);
-        this.physics.arcade.overlap(this.bombGroup, this.burst, this.bombCollision, null, this);
-        this.physics.arcade.overlap(this.roamingSpaceMole, this.burst, this.spacemoleCollision, null, this);
+
 
     }
 

@@ -19,6 +19,7 @@ WhackaMole.Preloader.prototype = {
 		this.load.image('spacemole', 'assets/whack_assets/images/newSpaceMole.png');
 		this.load.image('molehole', 'assets/whack_assets/images/newHole.png');
 		this.load.image('moon', 'assets/whack_assets/images/moon.png');
+		this.load.image('hammer', 'assets/whack_assets/images/hammer.png');
 		this.load.image('sun', 'assets/whack_assets/images/newSun.png');
 		this.load.image('bomb', 'assets/whack_assets/images/bomb.png');
 		this.load.image('stars', 'assets/whack_assets/images/stars.png');
