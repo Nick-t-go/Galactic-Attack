@@ -438,9 +438,9 @@ WhackaMole.Game.prototype = {
         this.newBomb.enableBody = true;
         this.newBomb.inputEnabled = true;
         this.newBomb.events.onInputDown.add(this.bombCollision, this);
-        this.newBomb.animations.add('grow', [1,2,3,4,5,6,7,5,6,5,7]);
+        this.newBomb.animations.add('grow', [1,2,3,4,5,6,7,5,6,5,7,6,5,4,3,2,1]);
         this.newBomb.animations.add('baboom', [13,14,15]);
-        this.newBomb.animations.play('grow',5, false, true);
+        this.newBomb.animations.play('grow',9, false, true);
     },
 
 
