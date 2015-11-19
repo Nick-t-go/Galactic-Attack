@@ -86,7 +86,7 @@ WhackaMole.Game.prototype = {
 
         this.buildWorld();
         this.input.onDown.add(this.hammerDown, this);
-        this.input.onUp.add(this.hammerUp, this)
+        //this.input.onUp.add(this.hammerUp, this)
 
         this.timerText = this.add.bitmapText(this.world.width - 75, 20, 'eightbitwonder', 'Time ' + this.counter, 20);
 
@@ -107,8 +107,12 @@ WhackaMole.Game.prototype = {
     },
 
     hammerDown: function(pointer) {
-        this.hammer = this.add.sprite(pointer.x, pointer.y, 'hammer')
-
+        this.hammer = this.add.sprite(pointer.x, pointer.y, 'hammer1');
+        this.hammer.anchor.setTo(0.5,0.5);
+        this.hammer.scale.x = 2.0;
+        this.hammer.scale.y = 2.0;
+        this.hammer.animations.add('hammerTime');
+        this.hammer.animations.play('hammerTime', 15,false, true);
     },
 
     hammerUp: function(pointer) {
