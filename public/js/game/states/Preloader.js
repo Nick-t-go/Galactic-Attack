@@ -36,6 +36,8 @@ WhackaMole.Preloader.prototype = {
 		this.load.atlasJSONHash('spacemole1', 'assets/whack_assets/images/spritesheets/spacemole.png', 'assets/whack_assets/images/spritesheets/spacemole.json');
 		this.load.atlasJSONHash('clouds', 'assets/whack_assets/images/spritesheets/clouds.png', 'assets/whack_assets/images/spritesheets/clouds.json');
 		this.load.atlasJSONHash('bombexplode', 'assets/whack_assets/images/spritesheets/explosion.png', 'assets/whack_assets/images/spritesheets/explosion.json');
+		this.load.atlasJSONHash('snake1', 'assets/whack_assets/images/spritesheets/snake.png', 'assets/whack_assets/images/spritesheets/snake.json');
+		this.load.atlasJSONHash('snake2', 'assets/whack_assets/images/spritesheets/snake2.png', 'assets/whack_assets/images/spritesheets/snake2.json');
 		this.load.image('explosion', 'assets/whack_assets/images/explosion.png');
 		this.load.audio('explosion_audio', 'assets/whack_assets/audio/explosion_audio.mp3');
 		this.load.audio('hurt_audio', 'assets/whack_assets/audio/hurt.mp3');

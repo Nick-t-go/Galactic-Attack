@@ -10,6 +10,8 @@ WhackaMole.Game = function(game) {
     this.spacemolegroup;
     this.burst;
     this.gameover;
+    this.newSnake;
+    this.snakegroup;
     this.scoreText;
     this.overmessage;
     this.newBomb;
@@ -33,11 +35,19 @@ WhackaMole.Game = function(game) {
     this.timerText;
     this.counter;
     this.hammer;
-
+    this.displayText;
+    this.killTally = {
+        mole: null,
+        bomb: null,
+        spacemole: null,
+        lastkilled: null
+    };
 
     this.bmd;
+    this.text;
 
     this.mode;
+    this.multiplyer;
 
     this.points;
 
@@ -70,7 +80,7 @@ WhackaMole.Game = function(game) {
 WhackaMole.Game.prototype = {
 
     create: function() {
-
+        this.multiplyer = 1;
         this.counter = 30;
         this.gameover = false;
         this.cursors = this.game.input.keyboard.createCursorKeys();
@@ -83,6 +93,10 @@ WhackaMole.Game.prototype = {
         this.currentSpeed = 0;
         this.totalSpacemoles = 30;
         this.molesWhacked = 0;
+        this.killTally.mole = 0;
+        this.killTally.bomb = 0;
+        this.killTally.spacemole = 0;
+        this.killTally.lastkilled = null;
 
         this.buildWorld();
         this.input.onDown.add(this.hammerDown, this);
@@ -115,11 +129,6 @@ WhackaMole.Game.prototype = {
         this.hammer.animations.play('hammerTime', 15,false, true);
     },
 
-    hammerUp: function(pointer) {
-        this.hammer.kill();
-
-    },
-
 
     updateTimer: function() {
         this.counter--;
@@ -131,6 +140,19 @@ WhackaMole.Game.prototype = {
             this.gameover = true;
             this.music.stop();
             this.overmessage = this.add.bitmapText(this.world.centerX-180, this.world.centerY-40, 'eightbitwonder', 'GAME OVER', 42);
+            this.add.bitmapText(this.world.centerX-180, this.world.centerY + 25, 'eightbitwonder', this.killTally.mole + ' Moles Killed ', 25);
+            this.add.bitmapText(this.world.centerX-225, this.world.centerY + 65, 'eightbitwonder', this.killTally.spacemole + ' Spacemoles Killed', 25);
+            this.add.bitmapText(this.world.centerX-200, this.world.centerY + 105, 'eightbitwonder', this.killTally.bomb + ' Bombs Destroyed', 25);
+            this.emitter = this.add.emitter(this.world.centerX, this.world.centerY -75, 100);
+            this.emitter.makeParticles('star1');
+            this.emitter.minParticleSpeed.setTo(-400, -400);
+            this.emitter.maxParticleSpeed.setTo(400, 400);
+            this.emitter.gravity = 0;
+            this.emitter.setAlpha(1, 0, 3000);
+            this.emitter.setScale(0.25, 2.5, 0.25, 2.5, 3000);
+            this.emitter.start(false, 1000, 5);
+
+
             this.overmessage.align = "center";
             this.overmessage.inputEnabled = true;
             this.overmessage.events.onInputDown.addOnce(this.quitGame, this);
@@ -139,7 +161,7 @@ WhackaMole.Game.prototype = {
     },
 
     pointUpdate: function(){
-        this.scoreText.setText('Moles Whacked ' + this.molesWhacked)
+        this.scoreText.setText('Points ' + this.molesWhacked)
     },
 
 
@@ -205,11 +227,12 @@ WhackaMole.Game.prototype = {
         this.clouds.animations.add('flow',[0,1,2,3,4,5,6,7,8], true);
         this.clouds.animations.play('flow', 2, true);
 
-
+        this.snakeInit();
         this.buildMoleHoles();
         this.molesInit();
         this.bombInit();
         this.roamingSpaceMoleInit();
+
 
 
         this.crosshair = this.add.sprite(this.world.centerX,this.world.centerY, 'crosshair');
@@ -226,7 +249,6 @@ WhackaMole.Game.prototype = {
     },
 
     buildMoles: function(a,b){
-        console.log("build mole", a, b);
         this.newMole = this.molegroup.create(a,b, 'mole');
         this.newMole.anchor.setTo(0.5, 0.5);
         this.physics.enable(this.newMole, Phaser.Physics.ARCADE);
@@ -236,8 +258,25 @@ WhackaMole.Game.prototype = {
         this.newMole.animations.add('Up',[1,2,3,4,5,6,5,6,5,6,6,5,4,3,2,1,0,0,0,0,0,0]);
         var random = this.rnd.integerInRange(10, 20);
         this.newMole.animations.play('Up', random, false, true);
-        console.log(this.newMole.animations);
 
+
+
+    },
+
+    snakeInit: function(){
+        this.snakegroup = this.add.group();
+        this.snakegroup.enablebody = true;
+        this.buildSnake(200,this.world.height - 40)
+    },
+
+    buildSnake: function(snakeX, snakeY){
+        this.newSnake = this.snakegroup.create(270,590, 'snake1');
+        this.newSnake.anchor.setTo(0.5, 0.5);
+        this.physics.enable(this.newSnake, Phaser.Physics.ARCADE);
+        this.newSnake.enableBody = true;
+        this.newSnake.inputEnabled = true;
+        this.newSnake.animations.add('wiggle');
+        this.newSnake.animations.play('wiggle',6, true);
 
 
     },
@@ -359,10 +398,20 @@ WhackaMole.Game.prototype = {
 
 
     pointsTweener: function(kill, kScore){
-        this.pointScore = this.add.bitmapText(kill.x, kill.y, 'eightbitwonder', kScore, 20);
+        this.displayText = "Bad";
+        console.log(this.killTally.lastkilled.key)
+        if (kScore!=false && this.killTally.lastkilled.key != "bombexplode")
+        {
+            this.displayText = (kScore * this.multiplyer).toString();
+            this.multiplyer ++;
+            console.log(this.displayText)
+        } else {
+            this.multiplyer = 1;
+        }
+        this.pointScore = this.add.bitmapText(kill.x, kill.y, 'eightbitwonder', this.displayText, 20);
         this.add.tween(this.pointScore).to({ alpha: 0}, 2000, Phaser.Easing.Linear.None, true);
         if (this.molesWhacked > 0){
-            this.scoreText.setText('Moles Whacked ' + this.molesWhacked);
+            this.scoreText.setText('Points ' + this.molesWhacked);
         }
 
     },
@@ -391,25 +440,28 @@ WhackaMole.Game.prototype = {
 
     spacemoleCollision: function(sm) {
         if(sm.exists && !this.gameover){
+            this.killTally.lastkilled = sm;
+            this.killTally.spacemole ++;
             this.ouch.play();
             this.roamingSpaceMole.kill();
-            this.time.events.add(Phaser.Timer.SECOND * 3.5, this.roamingSpaceMoleInit, this);
-            this.molesWhacked += 3;
-            this.pointsTweener(sm, "500");
+            this.time.events.add(Phaser.Timer.SECOND * 5, this.roamingSpaceMoleInit, this);
+            this.molesWhacked += 200;
+            this.pointsTweener(sm, 200);
         }
     },
 
 
 
     moleCollision: function(m) {
-        console.log("mole collision:", m)
         if(m.exists && !this.gameover){
-            this.molesWhacked += 1;
+            this.killTally.lastkilled = m;
+            this.killTally.mole ++;
+            this.molesWhacked += 100;
             this.ouch.play();
             this.respawn(m);
             //add explostion
             m.kill();
-            this.pointsTweener(m, "100");
+            this.pointsTweener(m, 100);
         }
     },
 
@@ -435,7 +487,6 @@ WhackaMole.Game.prototype = {
     },
 
     buildBomb: function(bombX, bombY){
-        console.log("build bomb", bombX, bombY);
         this.newBomb = this.bombGroup.create(bombX, bombY, 'bombexplode');
         this.newBomb.anchor.setTo(0.5, 0.5);
         this.physics.enable(this.newBomb, Phaser.Physics.ARCADE);
@@ -454,14 +505,14 @@ WhackaMole.Game.prototype = {
     bombCollision: function(b) {
 
         if(b.exists && !this.gameover){
+            this.killTally.lastkilled = b;
+            this.killTally.bomb++;
             b.animations.play('baboom', 4, false, true);
-            console.log('bomb collision:', b.x, b.y, this.burst.x, this.burst.y);
-            //console.log("burst", this.burst.emit.x, this.burst.emit.y, "bomb:", b.x, b.y);
-            this.molesWhacked -= 2;
+            this.molesWhacked -= 200;
             //this.pointUpdate();
             this.ouch.play();
             this.respawn(b);
-            this.pointsTweener(b, "BAD");
+            this.pointsTweener(b, false);
 
         }
 
@@ -481,6 +532,12 @@ WhackaMole.Game.prototype = {
             that.user.lastbutton = data.buttons[0];
         });
 
+        //this.newSnake.x += 2;
+        //
+        //if (this.newSnake.x > this.world.width)
+        //{
+        //    this.newSnake.x = -20;
+        //}
 
 
         if(!this.gameover && this.roamingSpaceMole) {
