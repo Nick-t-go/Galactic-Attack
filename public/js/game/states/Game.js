@@ -27,6 +27,9 @@ WhackaMole.Game = function(game) {
     this.currentSpeed;
     this.emitter;
     this.molesWhacked;
+    this.num1;
+    this.num2;
+    this.num3;
     this.pausedText;
     this.points;
     this.pointsTween;
@@ -101,6 +104,9 @@ WhackaMole.Game.prototype = {
         this.killTally.spacemole = 0;
         this.killTally.lastkilled = null;
         this.num = 0;
+        this.num1 = 0
+        this.num2 = 0;
+        this.num3 = 0;
 
         this.buildWorld();
         this.input.onDown.add(this.hammerDown, this);
@@ -144,11 +150,17 @@ WhackaMole.Game.prototype = {
             this.gameover = true;
             this.music.stop();
             this.overmessage = this.add.bitmapText(this.world.centerX-180, this.world.centerY-40, 'eightbitwonder', 'GAME OVER', 42);
-            this.add.bitmapText(this.world.centerX - 180, this.world.centerY + 25, 'eightbitwonder', this.num + ' Moles Killed ', 25);
-            this.add.bitmapText(this.world.centerX - 225, this.world.centerY + 65, 'eightbitwonder', this.num + ' Spacemoles Killed', 25);
-            this.add.bitmapText(this.world.centerX - 200, this.world.centerY + 105, 'eightbitwonder', this.num + ' Bombs Destroyed', 25);
+            this.moleTallyText = this.add.text(this.world.centerX, this.world.centerY + 25, this.num1 + ' Moles Killed ',  {fontSize:20, fill: "white", align: "center" });
+            this.moleTallyText.font = 'Press Start 2P';
+            this.moleTallyText.anchor.set(0.5);
+            this.spacemoleTallyText = this.add.text(this.world.centerX, this.world.centerY + 65,  this.num2 + ' Spacemoles Killed', { fontSize:20, fill: "white", align: "center" });
+            this.spacemoleTallyText.font = 'Press Start 2P';
+            this.spacemoleTallyText.anchor.set(0.5);
+            this.bombTallyText = this.add.text(this.world.centerX, this.world.centerY + 105,  this.num3 + ' Bombs Destroyed', {fontSize:20, fill: "white", align: "center" });
+            this.bombTallyText.font = 'Press Start 2P';
+            this.bombTallyText.anchor.set(0.5);
             this.max = Math.max(this.killTally.mole, this.killTally.bomb, this.killTally.spacemole);
-            this.time.events.repeat(500, this.max, this.finalTally, this);
+            this.time.events.repeat(200, this.max, this.finalTally, this);
             this.emitter = this.add.emitter(this.world.centerX, this.world.centerY -75, 100);
             this.emitter.makeParticles('star1');
             this.emitter.minParticleSpeed.setTo(-400, -400);
@@ -166,16 +178,19 @@ WhackaMole.Game.prototype = {
 
     },
 
-    finalTally: function(){
-        //if (this.num <= this.killTally.mole) {
-        //    this.add.bitmapText(this.world.centerX - 180, this.world.centerY + 25, 'eightbitwonder', this.num + ' Moles Killed ', 25);
-        //}
-        //if (this.num <= this.killTally.spacemole) {
-        //    this.add.bitmapText(this.world.centerX - 225, this.world.centerY + 65, 'eightbitwonder', this.num + ' Spacemoles Killed', 25);
-        //}
-        //if (this.num <= this.killTally.bomb) {
-        //    this.add.bitmapText(this.world.centerX - 200, this.world.centerY + 105, 'eightbitwonder', this.num + ' Bombs Destroyed', 25);
-        //}
+    finalTally: function(textArray){
+        if (this.num <= this.killTally.mole) {
+            this.num1 = this.num;
+            this.moleTallyText.text = this.num1 + ' Moles Killed ';
+        }
+        if (this.num <= this.killTally.spacemole) {
+            this.num2 = this.num;
+            this.spacemoleTallyText.text = this.num2 + ' Spacemoles Killed';
+        }
+        if (this.num <= this.killTally.bomb) {
+            this.num3 = this.num;
+            this.bombTallyText.text = this.num3 + ' Bombs Destroyed';
+        }
         this.blip.play();
         this.num++
     },
@@ -254,7 +269,6 @@ WhackaMole.Game.prototype = {
         this.roamingSpaceMoleInit();
 
 
-
         this.crosshair = this.add.sprite(this.world.centerX,this.world.centerY, 'crosshair');
         this.crosshair.anchor.setTo(0.5,0.5);
         this.physics.arcade.enable(this.crosshair);
@@ -262,10 +276,17 @@ WhackaMole.Game.prototype = {
         this.crosshair.body.maxVelocity.setTo(400, 400);
         this.crosshair.body.collideWorldBounds = true;
 
-
-
         this.buildEmitter();
-        this.scoreText = this.add.bitmapText(10, 10, 'eightbitwonder', 'Moles Whacked ' + this.molesWhacked, 20);
+
+        this.scoreText = this.add.text(10, 10, "POINTS " + this.molesWhacked);
+        this.scoreText.font = 'Press Start 2P';
+        this.scoreText.fontWeight = 'bold';
+        this.scoreText.fontSize = 25;
+        this.scoreText.fill = 'white';
+
+        this.style = { font: "Press Start 2P", fill: "white", fontSize: 25}
+
+
     },
 
     buildMoles: function(a,b){

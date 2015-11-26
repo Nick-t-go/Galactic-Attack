@@ -1,4 +1,6 @@
 WhackaMole.Preloader = function(game) {
+
+
 	this.preloadBar = null;
 	this.titleText = null;
 	this.ready = false;
