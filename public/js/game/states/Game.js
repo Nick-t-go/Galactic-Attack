@@ -17,7 +17,9 @@ WhackaMole.Game = function(game) {
     this.newBomb;
     this.music;
     this.ouch;
+    this.blip;
     this.boom;
+    this.max;
     this.ding;
     this.molegroup;
     this.hole;
@@ -81,7 +83,7 @@ WhackaMole.Game.prototype = {
 
     create: function() {
         this.multiplyer = 1;
-        this.counter = 30;
+        this.counter = 15;
         this.gameover = false;
         this.cursors = this.game.input.keyboard.createCursorKeys();
         this.music = this.add.audio('game_audio');
@@ -89,6 +91,7 @@ WhackaMole.Game.prototype = {
         this.ouch = this.add.audio('hurt_audio');
         this.boom = this.add.audio('explosion_audio');
         this.ding = this.add.audio('select_audio');
+        this.blip = this.add.audio('blip')
         this.input.keyboard.addKeyCapture([ Phaser.Keyboard.SPACEBAR ]);
         this.currentSpeed = 0;
         this.totalSpacemoles = 30;
@@ -97,6 +100,7 @@ WhackaMole.Game.prototype = {
         this.killTally.bomb = 0;
         this.killTally.spacemole = 0;
         this.killTally.lastkilled = null;
+        this.num = 0;
 
         this.buildWorld();
         this.input.onDown.add(this.hammerDown, this);
@@ -105,7 +109,7 @@ WhackaMole.Game.prototype = {
         this.timerText = this.add.bitmapText(this.world.width - 75, 20, 'eightbitwonder', 'Time ' + this.counter, 20);
 
         this.timerText.anchor.setTo(0.5, 0.5);
-        this.time.events.loop(Phaser.Timer.SECOND, this.updateTimer, this);
+        this.time.events.repeat(Phaser.Timer.SECOND, this.counter, this.updateTimer, this);
 
         this.socket = io();
 
@@ -123,8 +127,8 @@ WhackaMole.Game.prototype = {
     hammerDown: function(pointer) {
         this.hammer = this.add.sprite(pointer.x, pointer.y, 'hammer1');
         this.hammer.anchor.setTo(0.5,0.5);
-        this.hammer.scale.x = 2.0;
-        this.hammer.scale.y = 2.0;
+        //this.hammer.scale.x = 2.0;
+        //this.hammer.scale.y = 2.0;
         this.hammer.animations.add('hammerTime');
         this.hammer.animations.play('hammerTime', 15,false, true);
     },
@@ -140,9 +144,11 @@ WhackaMole.Game.prototype = {
             this.gameover = true;
             this.music.stop();
             this.overmessage = this.add.bitmapText(this.world.centerX-180, this.world.centerY-40, 'eightbitwonder', 'GAME OVER', 42);
-            this.add.bitmapText(this.world.centerX-180, this.world.centerY + 25, 'eightbitwonder', this.killTally.mole + ' Moles Killed ', 25);
-            this.add.bitmapText(this.world.centerX-225, this.world.centerY + 65, 'eightbitwonder', this.killTally.spacemole + ' Spacemoles Killed', 25);
-            this.add.bitmapText(this.world.centerX-200, this.world.centerY + 105, 'eightbitwonder', this.killTally.bomb + ' Bombs Destroyed', 25);
+            this.add.bitmapText(this.world.centerX - 180, this.world.centerY + 25, 'eightbitwonder', this.num + ' Moles Killed ', 25);
+            this.add.bitmapText(this.world.centerX - 225, this.world.centerY + 65, 'eightbitwonder', this.num + ' Spacemoles Killed', 25);
+            this.add.bitmapText(this.world.centerX - 200, this.world.centerY + 105, 'eightbitwonder', this.num + ' Bombs Destroyed', 25);
+            this.max = Math.max(this.killTally.mole, this.killTally.bomb, this.killTally.spacemole);
+            this.time.events.repeat(500, this.max, this.finalTally, this);
             this.emitter = this.add.emitter(this.world.centerX, this.world.centerY -75, 100);
             this.emitter.makeParticles('star1');
             this.emitter.minParticleSpeed.setTo(-400, -400);
@@ -158,6 +164,20 @@ WhackaMole.Game.prototype = {
             this.overmessage.events.onInputDown.addOnce(this.quitGame, this);
         }
 
+    },
+
+    finalTally: function(){
+        //if (this.num <= this.killTally.mole) {
+        //    this.add.bitmapText(this.world.centerX - 180, this.world.centerY + 25, 'eightbitwonder', this.num + ' Moles Killed ', 25);
+        //}
+        //if (this.num <= this.killTally.spacemole) {
+        //    this.add.bitmapText(this.world.centerX - 225, this.world.centerY + 65, 'eightbitwonder', this.num + ' Spacemoles Killed', 25);
+        //}
+        //if (this.num <= this.killTally.bomb) {
+        //    this.add.bitmapText(this.world.centerX - 200, this.world.centerY + 105, 'eightbitwonder', this.num + ' Bombs Destroyed', 25);
+        //}
+        this.blip.play();
+        this.num++
     },
 
     pointUpdate: function(){
@@ -270,13 +290,13 @@ WhackaMole.Game.prototype = {
     },
 
     buildSnake: function(snakeX, snakeY){
-        this.newSnake = this.snakegroup.create(270,590, 'snake1');
+        this.newSnake = this.snakegroup.create(-10,615, 'snake1');
         this.newSnake.anchor.setTo(0.5, 0.5);
         this.physics.enable(this.newSnake, Phaser.Physics.ARCADE);
         this.newSnake.enableBody = true;
         this.newSnake.inputEnabled = true;
         this.newSnake.animations.add('wiggle');
-        this.newSnake.animations.play('wiggle',6, true);
+        //this.newSnake.animations.play('wiggle',6, true);
 
 
     },
@@ -532,12 +552,26 @@ WhackaMole.Game.prototype = {
             that.user.lastbutton = data.buttons[0];
         });
 
-        //this.newSnake.x += 2;
-        //
-        //if (this.newSnake.x > this.world.width)
-        //{
-        //    this.newSnake.x = -20;
-        //}
+        if (this.newSnake.x <= 120) {
+            this.newSnake.x += 2;
+        }
+
+        if (this.newSnake.x > this.world.width)
+        {
+            this.newSnake.x = -20;
+        }
+        if (this.newSnake.x == 120){
+            this.newSnake.x = 270;
+            this.newSnake.y = 590;
+            this.newSnake.animations.play('wiggle',6, true);
+            console.log(this.newSnake.animations);
+        }
+        if (this.newSnake.animations.currentAnim.loopCount == 4){
+            this.newSnake.animations.stop();
+            this.newSnake.y = 615;
+            this.newSnake.x +=2;
+
+        }
 
 
         if(!this.gameover && this.roamingSpaceMole) {
