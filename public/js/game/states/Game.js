@@ -86,7 +86,7 @@ WhackaMole.Game.prototype = {
 
     create: function() {
         this.multiplyer = 1;
-        this.counter = 15;
+        this.counter = 45;
         this.gameover = false;
         this.cursors = this.game.input.keyboard.createCursorKeys();
         this.music = this.add.audio('game_audio');
