@@ -11,12 +11,12 @@ function isCallerMobile(req) {
 /* GET home page. */
 
 // Detect if mobile
-router.use(function(req, res, next){
-  if (isCallerMobile(req)){
-    res.sendfile('views/controller.html')
-  } else {
-    next();
-}});
+//router.use(function(req, res, next){
+//  if (isCallerMobile(req)){
+//    res.sendfile('views/controller.html')
+//  } else {
+//    next();
+//}});
 
 router.get('/', function(req, res) {
   res.sendfile('views/index.html');

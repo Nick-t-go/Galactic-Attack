@@ -160,7 +160,7 @@ WhackaMole.Game.prototype = {
             this.bombTallyText.font = 'Press Start 2P';
             this.bombTallyText.anchor.set(0.5);
             this.max = Math.max(this.killTally.mole, this.killTally.bomb, this.killTally.spacemole);
-            this.time.events.repeat(200, this.max, this.finalTally, this);
+            this.time.events.repeat(100, this.max, this.finalTally, this);
             this.emitter = this.add.emitter(this.world.centerX, this.world.centerY -75, 100);
             this.emitter.makeParticles('star1');
             this.emitter.minParticleSpeed.setTo(-400, -400);
@@ -281,7 +281,7 @@ WhackaMole.Game.prototype = {
         this.scoreText = this.add.text(10, 10, "POINTS " + this.molesWhacked);
         this.scoreText.font = 'Press Start 2P';
         this.scoreText.fontWeight = 'bold';
-        this.scoreText.fontSize = 25;
+        this.scoreText.fontSize = 20;
         this.scoreText.fill = 'white';
 
         this.style = { font: "Press Start 2P", fill: "white", fontSize: 25}
@@ -441,11 +441,12 @@ WhackaMole.Game.prototype = {
     pointsTweener: function(kill, kScore){
         this.displayText = "Bad";
         console.log(this.killTally.lastkilled.key)
-        if (kScore!=false && this.killTally.lastkilled.key != "bombexplode")
-        {
+        if (kScore!=false && this.killTally.lastkilled.key == "mole") {
             this.displayText = (kScore * this.multiplyer).toString();
-            this.multiplyer ++;
+            this.multiplyer++;
             console.log(this.displayText)
+        }else if(this.killTally.lastkilled.key == "spacemole1"){
+            this.displayText = "200"
         } else {
             this.multiplyer = 1;
         }
@@ -497,7 +498,7 @@ WhackaMole.Game.prototype = {
         if(m.exists && !this.gameover){
             this.killTally.lastkilled = m;
             this.killTally.mole ++;
-            this.molesWhacked += 100;
+            this.molesWhacked += (100 * this.multiplyer);
             this.ouch.play();
             this.respawn(m);
             //add explostion
