@@ -28,12 +28,11 @@ WhackaMole.Preloader.prototype = {
 		this.load.image('star1', 'assets/whack_assets/images/star1.png');
 		this.load.image('start', 'assets/whack_assets/images/newPressStart.png');
 		this.load.image('crosshair', 'assets/whack_assets/images/crosshair.png');
-		this.load.image('mole', 'assets/whack_assets/images/newMole.png');
+		//this.load.image('mole', 'assets/whack_assets/images/newMole.png');
 		this.load.video('intro', 'assets/whack_assets/video/intro3.webm');
 		this.load.atlasJSONHash('hammer1','assets/whack_assets/images/spritesheets/hammer.png', 'assets/whack_assets/images/spritesheets/hammer.json');
 		this.load.atlasJSONHash('newintro','assets/whack_assets/images/spritesheets/intro_0.png', 'assets/whack_assets/images/spritesheets/intro_0.json');
 		this.load.atlasJSONHash('introfull','assets/whack_assets/images/spritesheets/intro_full.png', 'assets/whack_assets/images/spritesheets/intro_full.json');
-		this.load.atlasJSONHash('mole', 'assets/whack_assets/images/spritesheets/molepop.png', 'assets/whack_assets/images/spritesheets/molepop.json');
 		this.load.atlasJSONHash('mole', 'assets/whack_assets/images/spritesheets/molepop.png', 'assets/whack_assets/images/spritesheets/molepop.json');
 		this.load.atlasJSONHash('spacemole1', 'assets/whack_assets/images/spritesheets/spacemole.png', 'assets/whack_assets/images/spritesheets/spacemole.json');
 		this.load.atlasJSONHash('clouds', 'assets/whack_assets/images/spritesheets/clouds.png', 'assets/whack_assets/images/spritesheets/clouds.json');

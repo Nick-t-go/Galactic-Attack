@@ -1,67 +1,139 @@
 ﻿{"frames": [
 
 {
-	"filename": "Symbol 10000",
-	"frame": {"x":0,"y":0,"w":37,"h":17},
+	"filename": "Mole0000",
+	"frame": {"x":0,"y":0,"w":0,"h":0},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":77,"y":134,"w":200,"h":153},
-	"sourceSize": {"w":200,"h":153}
+	"spriteSourceSize": {"x":26,"y":136,"w":249,"h":250},
+	"sourceSize": {"w":249,"h":250}
 }
 ,{
-	"filename": "Symbol 10001",
-	"frame": {"x":37,"y":0,"w":48,"h":72},
+	"filename": "Mole0001",
+	"frame": {"x":0,"y":0,"w":48,"h":72},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":77,"y":79,"w":200,"h":153},
-	"sourceSize": {"w":200,"h":153}
+	"spriteSourceSize": {"x":82,"y":136,"w":249,"h":250},
+	"sourceSize": {"w":249,"h":250}
 }
 ,{
-	"filename": "Symbol 10002",
-	"frame": {"x":85,"y":0,"w":85,"h":72},
+	"filename": "Mole0002",
+	"frame": {"x":48,"y":0,"w":48,"h":72},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":62,"y":79,"w":200,"h":153},
-	"sourceSize": {"w":200,"h":153}
+	"spriteSourceSize": {"x":82,"y":136,"w":249,"h":250},
+	"sourceSize": {"w":249,"h":250}
 }
 ,{
-	"filename": "Symbol 10003",
-	"frame": {"x":170,"y":0,"w":161,"h":66},
+	"filename": "Mole0003",
+	"frame": {"x":96,"y":0,"w":85,"h":83},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":21,"y":68,"w":200,"h":153},
-	"sourceSize": {"w":200,"h":153}
+	"spriteSourceSize": {"x":67,"y":125,"w":249,"h":250},
+	"sourceSize": {"w":249,"h":250}
 }
 ,{
-	"filename": "Symbol 10004",
-	"frame": {"x":0,"y":72,"w":196,"h":115},
+	"filename": "Mole0004",
+	"frame": {"x":181,"y":0,"w":161,"h":110},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":0,"y":38,"w":200,"h":153},
-	"sourceSize": {"w":200,"h":153}
+	"spriteSourceSize": {"x":26,"y":95,"w":249,"h":250},
+	"sourceSize": {"w":249,"h":250}
 }
 ,{
-	"filename": "Symbol 10005",
-	"frame": {"x":196,"y":72,"w":162,"h":140},
+	"filename": "Mole0005",
+	"frame": {"x":342,"y":0,"w":196,"h":153},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":38,"y":0,"w":200,"h":153},
-	"sourceSize": {"w":200,"h":153}
+	"spriteSourceSize": {"x":5,"y":57,"w":249,"h":250},
+	"sourceSize": {"w":249,"h":250}
 }
 ,{
-	"filename": "Symbol 10006",
-	"frame": {"x":358,"y":72,"w":135,"h":140},
+	"filename": "Mole0006",
+	"frame": {"x":538,"y":0,"w":162,"h":140},
 	"rotated": false,
 	"trimmed": true,
-	"spriteSourceSize": {"x":38,"y":0,"w":200,"h":153},
-	"sourceSize": {"w":200,"h":153}
+	"spriteSourceSize": {"x":43,"y":57,"w":249,"h":250},
+	"sourceSize": {"w":249,"h":250}
+}
+,{
+	"filename": "Mole0007",
+	"frame": {"x":700,"y":0,"w":163,"h":90},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":32,"y":92,"w":249,"h":250},
+	"sourceSize": {"w":249,"h":250}
+}
+,{
+	"filename": "Mole0008",
+	"frame": {"x":0,"y":153,"w":198,"h":142},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":24,"y":66,"w":249,"h":250},
+	"sourceSize": {"w":249,"h":250}
+}
+,{
+	"filename": "Mole0009",
+	"frame": {"x":198,"y":153,"w":173,"h":162},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":32,"y":48,"w":249,"h":250},
+	"sourceSize": {"w":249,"h":250}
+}
+,{
+	"filename": "Mole0010",
+	"frame": {"x":371,"y":153,"w":166,"h":146},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":30,"y":62,"w":249,"h":250},
+	"sourceSize": {"w":249,"h":250}
+}
+,{
+	"filename": "Mole0011",
+	"frame": {"x":537,"y":153,"w":168,"h":152},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":29,"y":57,"w":249,"h":250},
+	"sourceSize": {"w":249,"h":250}
+}
+,{
+	"filename": "Mole0012",
+	"frame": {"x":705,"y":153,"w":190,"h":198},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":22,"y":30,"w":249,"h":250},
+	"sourceSize": {"w":249,"h":250}
+}
+,{
+	"filename": "Mole0013",
+	"frame": {"x":0,"y":351,"w":206,"h":240},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":11,"y":0,"w":249,"h":250},
+	"sourceSize": {"w":249,"h":250}
+}
+,{
+	"filename": "Mole0014",
+	"frame": {"x":206,"y":351,"w":249,"h":224},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":26,"w":249,"h":250},
+	"sourceSize": {"w":249,"h":250}
+}
+,{
+	"filename": "Mole0015",
+	"frame": {"x":455,"y":351,"w":0,"h":0},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":26,"y":136,"w":249,"h":250},
+	"sourceSize": {"w":249,"h":250}
 }],
 "meta": {
 	"app": "Adobe Flash Professional",
 	"version": "15.0.1.179",
 	"image": "molepop.png",
 	"format": "RGBA8888",
-	"size": {"w":512,"h":512},
+	"size": {"w":1024,"h":1024},
 	"scale": "1"
 }
 }

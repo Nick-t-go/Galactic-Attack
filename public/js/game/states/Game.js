@@ -104,7 +104,7 @@ WhackaMole.Game.prototype = {
         this.killTally.spacemole = 0;
         this.killTally.lastkilled = null;
         this.num = 0;
-        this.num1 = 0
+        this.num1 = 0;
         this.num2 = 0;
         this.num3 = 0;
 
@@ -133,8 +133,6 @@ WhackaMole.Game.prototype = {
     hammerDown: function(pointer) {
         this.hammer = this.add.sprite(pointer.x, pointer.y, 'hammer1');
         this.hammer.anchor.setTo(0.5,0.5);
-        //this.hammer.scale.x = 2.0;
-        //this.hammer.scale.y = 2.0;
         this.hammer.animations.add('hammerTime');
         this.hammer.animations.play('hammerTime', 15,false, true);
     },
@@ -297,10 +295,67 @@ WhackaMole.Game.prototype = {
         this.newMole.inputEnabled = true;
         this.newMole.events.onInputDown.add(this.moleCollision, this);
         this.newMole.animations.add('Up',[1,2,3,4,5,6,5,6,5,6,6,5,4,3,2,1,0,0,0,0,0,0]);
+        this.newMole.animations.add('moledie',[7,8,9,10,11,12,13,14,15]);
         var random = this.rnd.integerInRange(10, 20);
         this.newMole.animations.play('Up', random, false, true);
+    },
 
+    molesInit: function() {
+        this.molegroup = this.add.group();
+        this.molegroup.enablebody = true;
+        this.buildMoles(87,440);
+        this.buildMoles(87,640);
+        this.buildMoles(273,370);
+        this.buildMoles(273,540);
+        this.buildMoles(273,775);
+        this.buildMoles(450,440);
+        this.buildMoles(450,660);
 
+    },
+
+    moleCollision: function(m) {
+        if(m.exists && !this.gameover){
+            this.killTally.lastkilled = m;
+            this.killTally.mole ++;
+            m.animations.play('moledie', 20, false, true);
+            this.molesWhacked += (100 * this.multiplyer);
+            this.ouch.play();
+            this.respawn(m);
+            //add explostion
+            this.pointsTweener(m, 100);
+        }
+    },
+
+    bombInit: function(){
+        this.bombGroup = this.add.group();
+        this.bombGroup.enablebody = true;
+    },
+
+    buildBomb: function(bombX, bombY){
+        this.newBomb = this.bombGroup.create(bombX, bombY, 'bombexplode');
+        this.newBomb.anchor.setTo(0.5, 0.5);
+        this.physics.enable(this.newBomb, Phaser.Physics.ARCADE);
+        this.newBomb.enableBody = true;
+        this.newBomb.inputEnabled = true;
+        this.newBomb.events.onInputDown.add(this.bombCollision, this);
+        this.newBomb.animations.add('grow', [1,2,3,4,5,6,7,5,6,5,7,6,5,4,3,2,1]);
+        this.newBomb.animations.add('baboom', [13,14,15]);
+        this.newBomb.animations.play('grow',10, false, true);
+    },
+
+    bombCollision: function(b) {
+
+        if(b.exists && !this.gameover){
+            this.killTally.lastkilled = b;
+            this.killTally.bomb++;
+            b.animations.play('baboom', 4, false, true);
+            this.molesWhacked -= 200;
+            //this.pointUpdate();
+            this.ouch.play();
+            this.respawn(b);
+            this.pointsTweener(b, false);
+
+        }
 
     },
 
@@ -321,20 +376,6 @@ WhackaMole.Game.prototype = {
 
 
     },
-
-    molesInit: function() {
-        this.molegroup = this.add.group();
-        this.molegroup.enablebody = true;
-        this.buildMoles(87,440);
-        this.buildMoles(87,640);
-        this.buildMoles(273,370);
-        this.buildMoles(273,540);
-        this.buildMoles(273,775);
-        this.buildMoles(450,440);
-        this.buildMoles(450,660);
-
-    },
-
 
     roamingSpaceMoleInit: function() {
         this.bmd = null;
@@ -435,9 +476,6 @@ WhackaMole.Game.prototype = {
 
     },
 
-
-
-
     pointsTweener: function(kill, kScore){
         this.displayText = "Bad";
         console.log(this.killTally.lastkilled.key)
@@ -457,7 +495,6 @@ WhackaMole.Game.prototype = {
         }
 
     },
-
 
     buildEmitter:function() {
         this.burst = this.add.emitter(0, 0, 10);
@@ -479,7 +516,6 @@ WhackaMole.Game.prototype = {
         }
     },
 
-
     spacemoleCollision: function(sm) {
         if(sm.exists && !this.gameover){
             this.killTally.lastkilled = sm;
@@ -492,26 +528,6 @@ WhackaMole.Game.prototype = {
         }
     },
 
-
-
-    moleCollision: function(m) {
-        if(m.exists && !this.gameover){
-            this.killTally.lastkilled = m;
-            this.killTally.mole ++;
-            this.molesWhacked += (100 * this.multiplyer);
-            this.ouch.play();
-            this.respawn(m);
-            //add explostion
-            m.kill();
-            this.pointsTweener(m, 100);
-        }
-    },
-
-
-
-
-
-
     respawn: function(item){
         var that = this;
         if(this.gameover == false){
@@ -523,42 +539,7 @@ WhackaMole.Game.prototype = {
 
     },
 
-    bombInit: function(){
-        this.bombGroup = this.add.group();
-        this.bombGroup.enablebody = true;
-    },
 
-    buildBomb: function(bombX, bombY){
-        this.newBomb = this.bombGroup.create(bombX, bombY, 'bombexplode');
-        this.newBomb.anchor.setTo(0.5, 0.5);
-        this.physics.enable(this.newBomb, Phaser.Physics.ARCADE);
-        this.newBomb.enableBody = true;
-        this.newBomb.inputEnabled = true;
-        this.newBomb.events.onInputDown.add(this.bombCollision, this);
-        this.newBomb.animations.add('grow', [1,2,3,4,5,6,7,5,6,5,7,6,5,4,3,2,1]);
-        this.newBomb.animations.add('baboom', [13,14,15]);
-
-        this.newBomb.animations.play('grow',10, false, true);
-    },
-
-
-
-
-    bombCollision: function(b) {
-
-        if(b.exists && !this.gameover){
-            this.killTally.lastkilled = b;
-            this.killTally.bomb++;
-            b.animations.play('baboom', 4, false, true);
-            this.molesWhacked -= 200;
-            //this.pointUpdate();
-            this.ouch.play();
-            this.respawn(b);
-            this.pointsTweener(b, false);
-
-        }
-
-    },
 
     quitGame: function(pointer) {
         this.ding.play();
@@ -646,7 +627,7 @@ WhackaMole.Game.prototype = {
 
         if(this.molegroup) {
             this.molegroup.forEach(function (mole) {
-                if(mole.animations.currentAnim.isFinished == true ){
+                if(mole.animations.currentAnim.name === "Up" && mole.animations.currentAnim.isFinished == true ){
                     mole.destroy();
                     that.respawn(mole);
                     mole.kill();
