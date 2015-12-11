@@ -21,47 +21,47 @@
 
 </head>
 <body>
-<div class="code"></div>
+<!--<div class="code"></div>-->
 
 
 
-    <script type="text/javascript">
+    <!--<script type="text/javascript">-->
 
-        var socket = io();
-
-
-        var n = nunchuck.init('host', socket);
+        <!--var socket = io();-->
 
 
-        $(document).ready(function(){
-            $('.code').text(n.roomId)
-        });
+        <!--var n = nunchuck.init('host', socket);-->
+
+
+        <!--$(document).ready(function(){-->
+            <!--$('.code').text(n.roomId)-->
+        <!--});-->
 
 
 
-    </script>
+    <!--</script>-->
 
-    <style>
+    <!--<style>-->
 
-        .code {
-            position: fixed;
-            font-size: 13em;
-            opacity: .5;
-            right: .2em;
-            bottom: 0;
-        }
+        <!--.code {-->
+            <!--position: fixed;-->
+            <!--font-size: 13em;-->
+            <!--opacity: .5;-->
+            <!--right: .2em;-->
+            <!--bottom: 0;-->
+        <!--}-->
 
-        .users {
-            position: fixed;
-            font-family: 'Montserrat', 'Helvetic Neue', 'Helvetica', sans-serif;
-            font-size: 1.2em;
-            top: 8px;
-            left: 8px;
-        }
+        <!--.users {-->
+            <!--position: fixed;-->
+            <!--font-family: 'Montserrat', 'Helvetic Neue', 'Helvetica', sans-serif;-->
+            <!--font-size: 1.2em;-->
+            <!--top: 8px;-->
+            <!--left: 8px;-->
+        <!--}-->
 
-    </style>
+    <!--</style>-->
 
-    <div id="gameContainer"></div>
+    <div style="max-height: 100%" id="gameContainer"></div>
         <script type="text/javascript">
             WebFontConfig = {
                 google: { families: [ 'Press+Start+2P::latin' ] }
