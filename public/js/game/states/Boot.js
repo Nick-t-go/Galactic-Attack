@@ -5,7 +5,7 @@ WhackaMole.Boot = function(game) {};
 WhackaMole.Boot.prototype = {
 	preload: function() {
 		this.load.image('preloaderBar', 'assets/whack_assets/images/loadbar.png');
-		this.load.image('titleimage', 'assets/whack_assets/images/titleimage.png');
+		this.load.image('titleimage', 'assets/whack_assets/images/newSign.png');
 	},
 
 	create: function() {
@@ -20,7 +20,7 @@ WhackaMole.Boot.prototype = {
 		//this.scale.setScreenSize(true);
 
 		this.input.addPointer();
-		this.stage.backgroundColor = '#171642';
+		this.stage.backgroundColor = '#ffffff';
 
 		this.state.start('Preloader');
 	}
