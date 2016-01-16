@@ -248,8 +248,6 @@ WhackaMole.Game.prototype = {
 
 
 
-
-
     buildWorld: function() {
         this.add.image(0, 0, 'sky');
         this.add.image(0, 0, 'stars');
@@ -294,10 +292,13 @@ WhackaMole.Game.prototype = {
         this.newMole.enableBody = true;
         this.newMole.inputEnabled = true;
         this.newMole.events.onInputDown.add(this.moleCollision, this);
-        this.newMole.animations.add('Up',[1,2,3,4,5,6,5,6,5,6,6,5,4,3,2,1,0,0,0,0,0,0]);
-        this.newMole.animations.add('moledie',[7,8,9,10,11,12,13,14,15]);
+        this.newMole.upAnimation = this.newMole.animations.add('Up',[1,2,3,4,5,6,5,6,5,6,6,5,4,3,2,1,0,0,0,0,0,0]);
+        this.newMole.upAnimation.onComplete.add(this.respawn, this);
+        this.newMole.dieAnimation = this.newMole.animations.add('moledie',[7,8,9,10,11,12,13,14,15]);
+        this.newMole.dieAnimation.onComplete.add(this.respawn, this);
         var random = this.rnd.integerInRange(10, 20);
-        this.newMole.animations.play('Up', random, false, true);
+        this.newMole.upAnimation.play(random, false, true);
+
     },
 
     molesInit: function() {
@@ -317,10 +318,10 @@ WhackaMole.Game.prototype = {
         if(m.exists && !this.gameover){
             this.killTally.lastkilled = m;
             this.killTally.mole ++;
-            m.animations.play('moledie', 20, false, true);
+            m.inputEnabled=false;
+            m.dieAnimation.play(20, false, true);
             this.molesWhacked += (100 * this.multiplyer);
             this.ouch.play();
-            this.respawn(m);
             //add explostion
             this.pointsTweener(m, 100);
         }
@@ -338,9 +339,12 @@ WhackaMole.Game.prototype = {
         this.newBomb.enableBody = true;
         this.newBomb.inputEnabled = true;
         this.newBomb.events.onInputDown.add(this.bombCollision, this);
-        this.newBomb.animations.add('grow', [1,2,3,4,5,6,7,5,6,5,7,6,5,4,3,2,1]);
-        this.newBomb.animations.add('baboom', [13,14,15]);
-        this.newBomb.animations.play('grow',10, false, true);
+        this.newBomb.growAnimation = this.newBomb.animations.add('grow', [1,2,3,4,5,6,7,5,6,5,7,6,5,4,3,2,1]);
+        this.newBomb.baboomAnimation = this.newBomb.animations.add('baboom', [13,14,15]);
+        this.newBomb.baboomAnimation.onComplete.add(this.respawn,this);
+        this.newBomb.growAnimation.onComplete.add(this.respawn,this);
+        this.newBomb.growAnimation.play(10, false, true);
+
     },
 
     bombCollision: function(b) {
@@ -348,11 +352,11 @@ WhackaMole.Game.prototype = {
         if(b.exists && !this.gameover){
             this.killTally.lastkilled = b;
             this.killTally.bomb++;
-            b.animations.play('baboom', 4, false, true);
+            b.inputEnabled = false;
+            b.baboomAnimation.play(4, false, true);
             this.molesWhacked -= 200;
             //this.pointUpdate();
             this.ouch.play();
-            this.respawn(b);
             this.pointsTweener(b, false);
 
         }
@@ -529,6 +533,7 @@ WhackaMole.Game.prototype = {
     },
 
     respawn: function(item){
+        item.kill();
         var that = this;
         if(this.gameover == false){
             this.time.events.add(Phaser.Timer.SECOND * 3, function() {
@@ -612,29 +617,29 @@ WhackaMole.Game.prototype = {
 
         //this.pointUpdate.call(this);
 
-        if(this.bombGroup) {
-            this.bombGroup.forEach(function (bomb) {
-                if(bomb.animations.currentAnim.name === "grow" && bomb.animations.currentAnim.isFinished === true){
-                    bomb.destroy();
-                    that.respawn(bomb);
-                    bomb.kill();
-                }
+        //if(this.bombGroup) {
+        //    this.bombGroup.forEach(function (bomb) {
+        //        if(bomb.animations.currentAnim.name === "grow" && bomb.animations.currentAnim.isFinished === true){
+        //            bomb.destroy();
+        //            that.respawn(bomb);
+        //            bomb.kill();
+        //        }
+        //
+        //    });
+        //}
 
-            });
-        }
 
 
-
-        if(this.molegroup) {
-            this.molegroup.forEach(function (mole) {
-                if(mole.animations.currentAnim.name === "Up" && mole.animations.currentAnim.isFinished == true ){
-                    mole.destroy();
-                    that.respawn(mole);
-                    mole.kill();
-                }
-
-            });
-        }
+        //if(this.molegroup) {
+        //    this.molegroup.forEach(function (mole) {
+        //        if(mole.animations.currentAnim.name === "Up" && mole.animations.currentAnim.isFinished == true ){
+        //            mole.destroy();
+        //            that.respawn(mole);
+        //            mole.kill();
+        //        }
+        //
+        //    });
+        //}
 
     }
 
