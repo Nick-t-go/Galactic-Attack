@@ -20,8 +20,9 @@ WhackaMole.BossLevel1.prototype = {
 
     create: function(){
         this.boss1Music = this.add.audio('boss1Song');
-        this.boss1Music.play('',0,2,true);
+        this.boss1Music.play('',0,3,true);
         this.boom = this.add.audio('explosion_audio');
+        this.grumble = this.add.audio('boss1Sound');
         this.buildWorld();
     },
 
@@ -98,8 +99,13 @@ WhackaMole.BossLevel1.prototype = {
 
     update: function() {
 
+
+        if (this.boss1.animations.currentFrame.index === 10 || this.boss1.animations.currentFrame.index === 14 || this.boss1.animations.currentFrame.index === 50 || this.boss1.animations.currentFrame.index === 35){
+            this.grumble.play('',0,.6);
+        }
+
         if (this.boss1.animations.currentFrame.index === 24 || this.boss1.animations.currentFrame.index === 44){
-            this.boom.play();
+            this.boom.play('',0,.4);
         }
 
     }

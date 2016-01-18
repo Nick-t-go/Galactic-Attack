@@ -91,7 +91,7 @@ WhackaMole.Game.prototype = {
         this.gameover = false;
         this.cursors = this.game.input.keyboard.createCursorKeys();
         this.music = this.add.audio('game_audio');
-        this.music.play('', 0, 0.3, true);
+        this.music.play('', 0, 0.2, true);
         this.ouch = this.add.audio('hurt_audio');
         this.boom = this.add.audio('explosion_audio');
         this.ding = this.add.audio('select_audio');

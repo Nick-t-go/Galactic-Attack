@@ -46,6 +46,7 @@ WhackaMole.Preloader.prototype = {
 		this.load.audio('game_audio', 'assets/whack_assets/audio/bgm.mp3');
 		this.load.audio('blip', 'assets/whack_assets/audio/Blip_Select4.wav');
 		this.load.audio('boss1Song', 'assets/whack_assets/audio/boss1Song.mp3');
+		this.load.audio('boss1Sound', 'assets/whack_assets/audio/boss1Sound.mp3');
 
 	},
 
