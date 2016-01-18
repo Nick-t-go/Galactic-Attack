@@ -19,7 +19,9 @@ WhackaMole.BossLevel1.prototype = {
     },
 
     create: function(){
-
+        this.boss1Music = this.add.audio('boss1Song');
+        this.boss1Music.play('',0,2,true);
+        this.boom = this.add.audio('explosion_audio');
         this.buildWorld();
     },
 
@@ -92,7 +94,16 @@ WhackaMole.BossLevel1.prototype = {
         this.ricochet.animations.add('bounceOff', [0,9,10,11,12,13,14,15,16]);
         this.ricochet.animations.play('bounceOff', 7,false, true);
 
+    },
+
+    update: function() {
+
+        if (this.boss1.animations.currentFrame.index === 24 || this.boss1.animations.currentFrame.index === 44){
+            this.boom.play();
+        }
+
     }
+
 
 
 
