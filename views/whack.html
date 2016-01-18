@@ -15,6 +15,7 @@
     <script src="js/game/states/Preloader.js"></script>
     <script src="js/game/states/StartMenu.js"></script>
     <script src="js/game/states/Game.js"></script>
+    <script src="js/game/states/BossLevel1.js"></script>
     <link href='stylesheets/normalize.css' rel="stylesheet" type="text/css">
     <link href='stylesheets/animate.css' rel="stylesheet" type="text/css">
     <link href='stylesheets/style.css' rel="stylesheet" type="text/css">
@@ -61,7 +62,7 @@
 
     <!--</style>-->
 
-    <div style="height: 100%" id="gameContainer"></div>
+    <div style="height:100%; max-width:540px;" id="gameContainer"></div>
         <script type="text/javascript">
             WebFontConfig = {
                 google: { families: [ 'Press+Start+2P::latin' ] }
@@ -85,6 +86,7 @@
                 game.state.add('StartMenu', WhackaMole.StartMenu);
                 game.state.add('Intro', WhackaMole.Intro);
                 game.state.add('Game', WhackaMole.Game);
+                game.state.add('BossLevel1', WhackaMole.BossLevel1);
                 game.state.start('Boot');
             }
         </script>

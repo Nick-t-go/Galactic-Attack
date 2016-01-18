@@ -1,0 +1,267 @@
+﻿{"frames": [
+
+{
+	"filename": "ricochet0000",
+	"frame": {"x":0,"y":0,"w":52,"h":38},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":105,"y":38,"w":253,"h":277},
+	"sourceSize": {"w":253,"h":277}
+}
+,{
+	"filename": "ricochet0001",
+	"frame": {"x":52,"y":0,"w":52,"h":38},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":105,"y":38,"w":253,"h":277},
+	"sourceSize": {"w":253,"h":277}
+}
+,{
+	"filename": "ricochet0002",
+	"frame": {"x":104,"y":0,"w":25,"h":66},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":120,"y":24,"w":253,"h":277},
+	"sourceSize": {"w":253,"h":277}
+}
+,{
+	"filename": "ricochet0003",
+	"frame": {"x":129,"y":0,"w":31,"h":82},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":119,"y":17,"w":253,"h":277},
+	"sourceSize": {"w":253,"h":277}
+}
+,{
+	"filename": "ricochet0004",
+	"frame": {"x":160,"y":0,"w":66,"h":109},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":101,"y":0,"w":253,"h":277},
+	"sourceSize": {"w":253,"h":277}
+}
+,{
+	"filename": "ricochet0005",
+	"frame": {"x":226,"y":0,"w":57,"h":94},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":105,"y":10,"w":253,"h":277},
+	"sourceSize": {"w":253,"h":277}
+}
+,{
+	"filename": "ricochet0006",
+	"frame": {"x":283,"y":0,"w":71,"h":40},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":89,"y":47,"w":253,"h":277},
+	"sourceSize": {"w":253,"h":277}
+}
+,{
+	"filename": "ricochet0007",
+	"frame": {"x":354,"y":0,"w":0,"h":0},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":43,"y":155,"w":253,"h":277},
+	"sourceSize": {"w":253,"h":277}
+}
+,{
+	"filename": "ricochet0008",
+	"frame": {"x":354,"y":0,"w":52,"h":38},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":105,"y":38,"w":253,"h":277},
+	"sourceSize": {"w":253,"h":277}
+}
+,{
+	"filename": "ricochet0009",
+	"frame": {"x":52,"y":0,"w":52,"h":38},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":105,"y":38,"w":253,"h":277},
+	"sourceSize": {"w":253,"h":277}
+}
+,{
+	"filename": "ricochet0010",
+	"frame": {"x":104,"y":0,"w":25,"h":66},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":120,"y":24,"w":253,"h":277},
+	"sourceSize": {"w":253,"h":277}
+}
+,{
+	"filename": "ricochet0011",
+	"frame": {"x":129,"y":0,"w":31,"h":82},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":119,"y":57,"w":253,"h":277},
+	"sourceSize": {"w":253,"h":277}
+}
+,{
+	"filename": "ricochet0012",
+	"frame": {"x":160,"y":0,"w":66,"h":109},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":101,"y":100,"w":253,"h":277},
+	"sourceSize": {"w":253,"h":277}
+}
+,{
+	"filename": "ricochet0013",
+	"frame": {"x":406,"y":0,"w":78,"h":79},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":95,"y":167,"w":253,"h":277},
+	"sourceSize": {"w":253,"h":277}
+}
+,{
+	"filename": "ricochet0014",
+	"frame": {"x":283,"y":0,"w":71,"h":40},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":89,"y":236,"w":253,"h":277},
+	"sourceSize": {"w":253,"h":277}
+}
+,{
+	"filename": "ricochet0015",
+	"frame": {"x":354,"y":0,"w":52,"h":38},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":43,"y":155,"w":253,"h":277},
+	"sourceSize": {"w":253,"h":277}
+}
+,{
+	"filename": "ricochet0016",
+	"frame": {"x":354,"y":0,"w":52,"h":38},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":14,"y":125,"w":253,"h":277},
+	"sourceSize": {"w":253,"h":277}
+}
+,{
+	"filename": "ricochet0017",
+	"frame": {"x":0,"y":109,"w":38,"h":50},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":14,"y":125,"w":253,"h":277},
+	"sourceSize": {"w":253,"h":277}
+}
+,{
+	"filename": "ricochet0018",
+	"frame": {"x":38,"y":109,"w":66,"h":24},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":0,"y":137,"w":253,"h":277},
+	"sourceSize": {"w":253,"h":277}
+}
+,{
+	"filename": "ricochet0019",
+	"frame": {"x":104,"y":109,"w":82,"h":30},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":33,"y":131,"w":253,"h":277},
+	"sourceSize": {"w":253,"h":277}
+}
+,{
+	"filename": "ricochet0020",
+	"frame": {"x":186,"y":109,"w":110,"h":65},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":75,"y":114,"w":253,"h":277},
+	"sourceSize": {"w":253,"h":277}
+}
+,{
+	"filename": "ricochet0021",
+	"frame": {"x":296,"y":109,"w":79,"h":78},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":143,"y":108,"w":253,"h":277},
+	"sourceSize": {"w":253,"h":277}
+}
+,{
+	"filename": "ricochet0022",
+	"frame": {"x":375,"y":109,"w":41,"h":70},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":212,"y":121,"w":253,"h":277},
+	"sourceSize": {"w":253,"h":277}
+}
+,{
+	"filename": "ricochet0023",
+	"frame": {"x":354,"y":0,"w":52,"h":38},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":43,"y":155,"w":253,"h":277},
+	"sourceSize": {"w":253,"h":277}
+}
+,{
+	"filename": "ricochet0024",
+	"frame": {"x":354,"y":0,"w":52,"h":38},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":48,"y":56,"w":253,"h":277},
+	"sourceSize": {"w":253,"h":277}
+}
+,{
+	"filename": "ricochet0025",
+	"frame": {"x":416,"y":109,"w":21,"h":63},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":48,"y":56,"w":253,"h":277},
+	"sourceSize": {"w":253,"h":277}
+}
+,{
+	"filename": "ricochet0026",
+	"frame": {"x":437,"y":109,"w":39,"h":58},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":40,"y":57,"w":253,"h":277},
+	"sourceSize": {"w":253,"h":277}
+}
+,{
+	"filename": "ricochet0027",
+	"frame": {"x":0,"y":187,"w":78,"h":40},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":51,"y":93,"w":253,"h":277},
+	"sourceSize": {"w":253,"h":277}
+}
+,{
+	"filename": "ricochet0028",
+	"frame": {"x":78,"y":187,"w":50,"h":120},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":108,"y":89,"w":253,"h":277},
+	"sourceSize": {"w":253,"h":277}
+}
+,{
+	"filename": "ricochet0029",
+	"frame": {"x":128,"y":187,"w":109,"h":36},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":118,"y":166,"w":253,"h":277},
+	"sourceSize": {"w":253,"h":277}
+}
+,{
+	"filename": "ricochet0030",
+	"frame": {"x":237,"y":187,"w":76,"h":32},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":167,"y":207,"w":253,"h":277},
+	"sourceSize": {"w":253,"h":277}
+}
+,{
+	"filename": "ricochet0031",
+	"frame": {"x":354,"y":0,"w":52,"h":38},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":43,"y":155,"w":253,"h":277},
+	"sourceSize": {"w":253,"h":277}
+}],
+"meta": {
+	"app": "Adobe Flash Professional",
+	"version": "15.0.1.179",
+	"image": "ricochet.png",
+	"format": "RGBA8888",
+	"size": {"w":512,"h":512},
+	"scale": "1"
+}
+}

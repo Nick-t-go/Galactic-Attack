@@ -74,6 +74,7 @@ WhackaMole.Game = function(game) {
 
 
     this.n ;
+    this.managerMole
 
 
 };
@@ -86,7 +87,7 @@ WhackaMole.Game.prototype = {
 
     create: function() {
         this.multiplyer = 1;
-        this.counter = 45;
+        this.counter = 10;
         this.gameover = false;
         this.cursors = this.game.input.keyboard.createCursorKeys();
         this.music = this.add.audio('game_audio');
@@ -94,7 +95,7 @@ WhackaMole.Game.prototype = {
         this.ouch = this.add.audio('hurt_audio');
         this.boom = this.add.audio('explosion_audio');
         this.ding = this.add.audio('select_audio');
-        this.blip = this.add.audio('blip')
+        this.blip = this.add.audio('blip');
         this.input.keyboard.addKeyCapture([ Phaser.Keyboard.SPACEBAR ]);
         this.currentSpeed = 0;
         this.totalSpacemoles = 30;
@@ -103,7 +104,7 @@ WhackaMole.Game.prototype = {
         this.killTally.bomb = 0;
         this.killTally.spacemole = 0;
         this.killTally.lastkilled = null;
-        this.num = 0;
+        this.num = 1;
         this.num1 = 0;
         this.num2 = 0;
         this.num3 = 0;
@@ -140,40 +141,33 @@ WhackaMole.Game.prototype = {
 
     updateTimer: function() {
         this.counter--;
-        if (this.counter >= 1 && !this.gameover){
+        if (this.counter >= 1 && !this.gameover) {
             this.timerText.setText('Time ' + this.counter)
-        } else{
-            this.timerText.setText('Time 0');
-            this.molesWhacked >= 0 ? this.scoreText.setText('Final Score ' + this.molesWhacked) : this.scoreText.setText('You Suck');
-            this.gameover = true;
-            this.music.stop();
-            this.overmessage = this.add.bitmapText(this.world.centerX-180, this.world.centerY-40, 'eightbitwonder', 'GAME OVER', 42);
-            this.moleTallyText = this.add.text(this.world.centerX, this.world.centerY + 25, this.num1 + ' Moles Killed ',  {fontSize:20, fill: "white", align: "center" });
-            this.moleTallyText.font = 'Press Start 2P';
-            this.moleTallyText.anchor.set(0.5);
-            this.spacemoleTallyText = this.add.text(this.world.centerX, this.world.centerY + 65,  this.num2 + ' Spacemoles Killed', { fontSize:20, fill: "white", align: "center" });
-            this.spacemoleTallyText.font = 'Press Start 2P';
-            this.spacemoleTallyText.anchor.set(0.5);
-            this.bombTallyText = this.add.text(this.world.centerX, this.world.centerY + 105,  this.num3 + ' Bombs Destroyed', {fontSize:20, fill: "white", align: "center" });
-            this.bombTallyText.font = 'Press Start 2P';
-            this.bombTallyText.anchor.set(0.5);
-            this.max = Math.max(this.killTally.mole, this.killTally.bomb, this.killTally.spacemole);
-            this.time.events.repeat(100, this.max, this.finalTally, this);
-            this.emitter = this.add.emitter(this.world.centerX, this.world.centerY -75, 100);
-            this.emitter.makeParticles('star1');
-            this.emitter.minParticleSpeed.setTo(-400, -400);
-            this.emitter.maxParticleSpeed.setTo(400, 400);
-            this.emitter.gravity = 0;
-            this.emitter.setAlpha(1, 0, 3000);
-            this.emitter.setScale(0.25, 2.5, 0.25, 2.5, 3000);
-            this.emitter.start(false, 1000, 5);
-
-
-            this.overmessage.align = "center";
-            this.overmessage.inputEnabled = true;
-            this.overmessage.events.onInputDown.addOnce(this.quitGame, this);
+        } else {
+            this.gameOverSequence();
         }
+    },
 
+    gameOverSequence: function(){
+        this.timerText.setText('Time 0');
+        this.molesWhacked >= 0 ? this.scoreText.setText('Final Score ' + this.molesWhacked) : this.scoreText.setText('You Suck');
+        this.gameover = true;
+        this.music.stop();
+        this.overmessage = this.add.bitmapText(this.world.centerX-180, this.world.centerY-40, 'eightbitwonder', 'GAME OVER', 42);
+        this.moleTallyText = this.add.text(this.world.centerX, this.world.centerY + 25, this.num1 + ' Moles Killed ',  {fontSize:20, fill: "white", align: "center" });
+        this.moleTallyText.font = 'Press Start 2P';
+        this.moleTallyText.anchor.set(0.5);
+        this.spacemoleTallyText = this.add.text(this.world.centerX, this.world.centerY + 65,  this.num2 + ' Spacemoles Killed', { fontSize:20, fill: "white", align: "center" });
+        this.spacemoleTallyText.font = 'Press Start 2P';
+        this.spacemoleTallyText.anchor.set(0.5);
+        this.bombTallyText = this.add.text(this.world.centerX, this.world.centerY + 105,  this.num3 + ' Bombs Destroyed', {fontSize:20, fill: "white", align: "center" });
+        this.bombTallyText.font = 'Press Start 2P';
+        this.bombTallyText.anchor.set(0.5);
+        this.max = Math.max(this.killTally.mole, this.killTally.bomb, this.killTally.spacemole);
+        this.time.events.repeat(100, this.max, this.finalTally, this);
+        this.overmessage.align = "center";
+        this.overmessage.inputEnabled = true;
+        this.overmessage.events.onInputDown.addOnce(this.quitGame, this);
     },
 
     finalTally: function(textArray){
@@ -197,8 +191,6 @@ WhackaMole.Game.prototype = {
         this.scoreText.setText('Points ' + this.molesWhacked)
     },
 
-
-
     changeMode: function () {
 
         this.mode++;
@@ -212,7 +204,6 @@ WhackaMole.Game.prototype = {
         this.plot();
 
     },
-
 
     plot: function () {
 
@@ -245,8 +236,6 @@ WhackaMole.Game.prototype = {
         }
 
     },
-
-
 
     buildWorld: function() {
         this.add.image(0, 0, 'sky');
@@ -547,8 +536,13 @@ WhackaMole.Game.prototype = {
 
 
     quitGame: function(pointer) {
-        this.ding.play();
-        this.state.start('StartMenu');
+        if(this.molesWhacked > 0){
+            this.ding.play();
+            this.state.start('BossLevel1', true, false, this.molesWhacked);
+        } else {
+            this.ding.play();
+            this.state.start('StartMenu', true, false, this.molesWhacked);
+        }
     },
 
 
