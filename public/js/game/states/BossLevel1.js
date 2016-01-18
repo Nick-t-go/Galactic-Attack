@@ -51,7 +51,7 @@ WhackaMole.BossLevel1.prototype = {
         this.boss1.enableBody = true;
         this.boss1.inputEnabled = true;
         this.boss1.events.onInputDown.add(this.ricochetAnimation, this);
-        this.boss1.bossLoop = this.boss1.animations.add('bossLoop',[15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40])
+        this.boss1.bossLoop = this.boss1.animations.add('bossLoop',[15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51]);
         this.boss1.bossStart = this.boss1.animations.add('bossStart');
         this.boss1.bossStart.play(6,false);
         this.boss1.bossStart.onComplete.add(this.bossAnimationLoop, this);
