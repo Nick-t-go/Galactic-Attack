@@ -75,6 +75,7 @@ WhackaMole.Game = function(game) {
 
     this.n ;
     this.managerMole
+    this.osExplosion;
 
 
 };
@@ -515,11 +516,25 @@ WhackaMole.Game.prototype = {
             this.killTally.lastkilled = sm;
             this.killTally.spacemole ++;
             this.ouch.play();
+            this.osExplosion = this.add.sprite(sm.x,sm.y,'osExplode');
+            this.osExplosion.scale.x = 2;
+            this.osExplosion.scale.y = 2;
+            this.osExplosion.anchor.set = (.5);
+            this.osExplosion.animations.add('flow', this.loopArray(20,42));
+            this.osExplosion.animations.play('flow', 25,false, true);
             this.roamingSpaceMole.kill();
             this.time.events.add(Phaser.Timer.SECOND * 5, this.roamingSpaceMoleInit, this);
             this.molesWhacked += 200;
             this.pointsTweener(sm, 200);
         }
+    },
+
+    loopArray: function(low, hi){
+        var loopArr = [];
+        while(low <= hi){
+            loopArr.push(low++);
+        }
+        return loopArr
     },
 
     respawn: function(item){

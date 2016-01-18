@@ -25,11 +25,13 @@ WhackaMole.Preloader.prototype = {
 		this.load.image('bomb', 'assets/whack_assets/images/bomb.png');
 		this.load.image('stars', 'assets/whack_assets/images/stars.png');
 		this.load.image('star1', 'assets/whack_assets/images/star1.png');
+		this.load.image('heart', 'assets/whack_assets/images/heart.png');
 		this.load.image('start', 'assets/whack_assets/images/newPressStart.png');
 		this.load.image('crosshair', 'assets/whack_assets/images/crosshair.png');
 		this.load.video('intro', 'assets/whack_assets/video/intro3.webm');
-		this.load.atlasJSONHash('boss1','assets/whack_assets/images/spritesheets/boss1.png', 'assets/whack_assets/images/spritesheets/boss1.json');
+		this.load.atlasJSONHash('boss1','assets/whack_assets/images/spritesheets/bossMole1.png', 'assets/whack_assets/images/spritesheets/bossMole1.json');
 		this.load.atlasJSONHash('ricochet','assets/whack_assets/images/spritesheets/ricochet.png', 'assets/whack_assets/images/spritesheets/ricochet.json');
+		this.load.atlasJSONHash('osExplode','assets/whack_assets/images/spritesheets/osExplode.png', 'assets/whack_assets/images/spritesheets/osExplode.json');
 		this.load.atlasJSONHash('hammer1','assets/whack_assets/images/spritesheets/hammer.png', 'assets/whack_assets/images/spritesheets/hammer.json');
 		this.load.atlasJSONHash('newintro','assets/whack_assets/images/spritesheets/intro_0.png', 'assets/whack_assets/images/spritesheets/intro_0.json');
 		this.load.atlasJSONHash('introfull','assets/whack_assets/images/spritesheets/intro_full.png', 'assets/whack_assets/images/spritesheets/intro_full.json');
@@ -47,6 +49,7 @@ WhackaMole.Preloader.prototype = {
 		this.load.audio('blip', 'assets/whack_assets/audio/Blip_Select4.wav');
 		this.load.audio('boss1Song', 'assets/whack_assets/audio/boss1Song.mp3');
 		this.load.audio('boss1Sound', 'assets/whack_assets/audio/boss1Sound.mp3');
+
 
 	},
 

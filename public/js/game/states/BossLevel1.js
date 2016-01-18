@@ -9,6 +9,7 @@ WhackaMole.BossLevel1 = function(game) {
     this.hammer;
     this.ricochet;
     this.pointerSpot = {};
+    this.heart;
 
 };
 
@@ -45,22 +46,42 @@ WhackaMole.BossLevel1.prototype = {
         this.scoreText.fill = 'white';
         this.style = { font: "Press Start 2P", fill: "white", fontSize: 25};
         this.input.onDown.add(this.hammerDown, this);
+        this.initHeart()
     },
 
     initBoss1: function() {
         this.boss1 = this.add.sprite(270,590, 'boss1');
-        this.boss1.anchor.setTo(.65,.8);
+        this.boss1.anchor.setTo(.5,.5);
         this.physics.enable(this.boss1, Phaser.Physics.ARCADE);
         this.boss1.enableBody = true;
         this.boss1.inputEnabled = true;
-        this.boss1.bossLoop = this.boss1.animations.add('bossLoop',[15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51]);
-        this.boss1.bossStart = this.boss1.animations.add('bossStart');
+        this.boss1.bossLoop = this.boss1.animations.add('bossLoop',this.loopArray(15,51));
+        this.boss1.bossStart = this.boss1.animations.add('bossStart', this.loopArray(0,51));
         this.boss1.bossStart.play(6,false);
         this.boss1.bossStart.onComplete.add(this.bossAnimationLoop, this);
     },
 
     bossAnimationLoop: function(boss){
         boss.bossLoop.play(6,true)
+    },
+
+    loopArray: function(low, hi){
+        var loopArr = [];
+        while(low <= hi){
+            loopArr.push(low++);
+        }
+        return loopArr
+    },
+
+    initHeart: function(){
+        this.heartGroup = this.add.group();
+        this.x = 10;
+        this.y = 40;
+        for(var i = 0; i < 3; i++) {
+            this.newHeart = this.heartGroup.create(this.x, this.y, 'heart');
+            this.newHeart.anchor.setTo = (0.5,0.5);
+            this.y+=40;
+        }
     },
 
 
@@ -70,7 +91,7 @@ WhackaMole.BossLevel1.prototype = {
         var mhA1 = this.moleholegroup.create(90,500, 'molehole');
         var mhA2 =this.moleholegroup.create(90, 715, 'molehole');
         var mhB1 = this.moleholegroup.create(270,430, 'molehole');
-        var mhB2 = this.moleholegroup.create(270,590, 'molehole');
+        //var mhB2 = this.moleholegroup.create(270,590, 'molehole');
         var mhB3 = this.moleholegroup.create(270,806, 'molehole');
         var mhC1 = this.moleholegroup.create(455,500, 'molehole');
         var mhC2 = this.moleholegroup.create(455,715, 'molehole');
