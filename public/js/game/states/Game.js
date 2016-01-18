@@ -87,7 +87,7 @@ WhackaMole.Game.prototype = {
 
     create: function() {
         this.multiplyer = 1;
-        this.counter = 10;
+        this.counter = 6;
         this.gameover = false;
         this.cursors = this.game.input.keyboard.createCursorKeys();
         this.music = this.add.audio('game_audio');
@@ -154,6 +154,7 @@ WhackaMole.Game.prototype = {
         this.gameover = true;
         this.music.stop();
         this.overmessage = this.add.bitmapText(this.world.centerX-180, this.world.centerY-40, 'eightbitwonder', 'GAME OVER', 42);
+        this.molesWhacked > 0 ? this.overmessage.text = 'Boss Level': this.overmessage.text = 'Game Over';
         this.moleTallyText = this.add.text(this.world.centerX, this.world.centerY + 25, this.num1 + ' Moles Killed ',  {fontSize:20, fill: "white", align: "center" });
         this.moleTallyText.font = 'Press Start 2P';
         this.moleTallyText.anchor.set(0.5);
@@ -537,6 +538,7 @@ WhackaMole.Game.prototype = {
 
     quitGame: function(pointer) {
         if(this.molesWhacked > 0){
+            console.log(this.overmessage)
             this.ding.play();
             this.state.start('BossLevel1', true, false, this.molesWhacked);
         } else {

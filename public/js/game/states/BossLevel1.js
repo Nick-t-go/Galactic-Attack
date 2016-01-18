@@ -53,7 +53,6 @@ WhackaMole.BossLevel1.prototype = {
         this.physics.enable(this.boss1, Phaser.Physics.ARCADE);
         this.boss1.enableBody = true;
         this.boss1.inputEnabled = true;
-        this.boss1.events.onInputDown.add(this.ricochetAnimation, this);
         this.boss1.bossLoop = this.boss1.animations.add('bossLoop',[15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51]);
         this.boss1.bossStart = this.boss1.animations.add('bossStart');
         this.boss1.bossStart.play(6,false);
@@ -89,7 +88,7 @@ WhackaMole.BossLevel1.prototype = {
         this.hammer.animations.play('hammerTime', 15,false, true);
     },
 
-    ricochetAnimation: function(pointer){
+    ricochetAnimation: function(boss){
         this.ricochet = this.add.sprite(this.pointerSpot.x,this.pointerSpot.y, 'ricochet');
         this.ricochet.anchor.setTo(0.5,0.5);
         this.ricochet.animations.add('bounceOff', [0,9,10,11,12,13,14,15,16]);
@@ -97,11 +96,32 @@ WhackaMole.BossLevel1.prototype = {
 
     },
 
+
+    flash: function(){
+        this.time.events.repeat(25, 40, this.flashingRed, this);
+        this.time.events.repeat(100, 20, this.flashingWhite, this);
+
+    },
+
+    flashingRed: function(){
+        this.boss1.tint = Math.random() * 0xffffff; //0xff0000;
+
+    },
+
+    flashingWhite: function(){
+        this.boss1.tint = 0xffffff;
+    },
+
     update: function() {
 
 
         if (this.boss1.animations.currentFrame.index === 10 || this.boss1.animations.currentFrame.index === 14 || this.boss1.animations.currentFrame.index === 50 || this.boss1.animations.currentFrame.index === 35){
             this.grumble.play('',0,.6);
+            this.boss1.events.onInputDown.remove(this.ricochetAnimation, this);
+            this.boss1.events.onInputDown.add(this.flash, this);
+        } else{
+            this.boss1.events.onInputDown.remove(this.flash, this);
+            this.boss1.events.onInputDown.add(this.ricochetAnimation, this);
         }
 
         if (this.boss1.animations.currentFrame.index === 24 || this.boss1.animations.currentFrame.index === 44){
