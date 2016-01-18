@@ -8,6 +8,7 @@ WhackaMole.BossLevel1 = function(game) {
     this.scoreText;
     this.hammer;
     this.ricochet;
+    this.pointerSpot = {};
 
 };
 
@@ -39,7 +40,7 @@ WhackaMole.BossLevel1.prototype = {
         this.scoreText.fontWeight = 'bold';
         this.scoreText.fontSize = 20;
         this.scoreText.fill = 'white';
-        this.style = { font: "Press Start 2P", fill: "white", fontSize: 25}
+        this.style = { font: "Press Start 2P", fill: "white", fontSize: 25};
         this.input.onDown.add(this.hammerDown, this);
     },
 
@@ -50,8 +51,14 @@ WhackaMole.BossLevel1.prototype = {
         this.boss1.enableBody = true;
         this.boss1.inputEnabled = true;
         this.boss1.events.onInputDown.add(this.ricochetAnimation, this);
-        this.boss1.animations.add('bossLoop');
-        this.boss1.animations.play('bossLoop', 3, true);
+        this.boss1.bossLoop = this.boss1.animations.add('bossLoop',[15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40])
+        this.boss1.bossStart = this.boss1.animations.add('bossStart');
+        this.boss1.bossStart.play(6,false);
+        this.boss1.bossStart.onComplete.add(this.bossAnimationLoop, this);
+    },
+
+    bossAnimationLoop: function(boss){
+        boss.bossLoop.play(6,true)
     },
 
 
@@ -71,17 +78,19 @@ WhackaMole.BossLevel1.prototype = {
     },
 
     hammerDown: function(pointer) {
+        this.pointerSpot.x = pointer.x;
+        this.pointerSpot.y = pointer.y;
         this.hammer = this.add.sprite(pointer.x, pointer.y, 'hammer1');
         this.hammer.anchor.setTo(0.5,0.5);
         this.hammer.animations.add('hammerTime');
         this.hammer.animations.play('hammerTime', 15,false, true);
     },
 
-    ricochetAnimation: function(el){
-        this.ricochet = this.add.sprite(el.x,el.y, 'ricochet');
+    ricochetAnimation: function(pointer){
+        this.ricochet = this.add.sprite(this.pointerSpot.x,this.pointerSpot.y, 'ricochet');
         this.ricochet.anchor.setTo(0.5,0.5);
-        this.ricochet.animations.add('bounceOff', [9,10,11,12,13,14,15,16]);
-        this.ricochet.animations.play('bounceOff', 10,false, true);
+        this.ricochet.animations.add('bounceOff', [0,9,10,11,12,13,14,15,16]);
+        this.ricochet.animations.play('bounceOff', 7,false, true);
 
     }
 
