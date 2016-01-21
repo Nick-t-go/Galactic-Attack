@@ -520,7 +520,7 @@ WhackaMole.Game.prototype = {
             this.osExplosion.scale.x = 2;
             this.osExplosion.scale.y = 2;
             this.osExplosion.anchor.set = (.5);
-            this.osExplosion.animations.add('flow', this.loopArray(20,42));
+            this.osExplosion.animations.add('flow', this.loopArray(206,245));
             this.osExplosion.animations.play('flow', 25,false, true);
             this.roamingSpaceMole.kill();
             this.time.events.add(Phaser.Timer.SECOND * 5, this.roamingSpaceMoleInit, this);

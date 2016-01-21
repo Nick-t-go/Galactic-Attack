@@ -33,7 +33,7 @@ WhackaMole.BossLevel1.prototype = {
 
 
     buildWorld: function() {
-
+        this.over = true;
         this.sky = this.add.image(0, 0, 'sky');
         this.sky.tint = 0x002080;
         this.add.image(0, 0, 'stars');
@@ -163,6 +163,7 @@ WhackaMole.BossLevel1.prototype = {
         this.hammer.anchor.setTo(0.5,0.5);
         this.hammer.animations.add('hammerTime');
         this.hammer.animations.play('hammerTime', 15,false, true);
+
     },
 
     ricochetAnimation: function(boss){
@@ -260,6 +261,26 @@ WhackaMole.BossLevel1.prototype = {
         }
         if(this.boss1.animations.currentFrame.index === 27){
             this.hitBox2.hit = false;
+        }
+
+        if(this.moleHeartGroup.children.length === 0 && this.over ===true){
+            this.over = false
+            this.bossExplosion = this.add.sprite(75,350,'osExplode');
+            this.bossExplosion.scale.x = 7;
+            this.bossExplosion.scale.y = 7;
+            this.bossExplosion.anchor.set = (0,0);
+            this.bossExplosion1 = this.bossExplosion.animations.add('die', this.loopArray(17,245));
+            this.bossExplosion1.onComplete.add(this.screenFlash, this);
+            this.bossExplosion1.play(60,false, true);
+            this.bossExplosion1.play(100, false, true);
+            this.bossExplosion2 = this.add.sprite(75,350,'osExplode');
+            this.bossExplosion2.scale.x = 7;
+            this.bossExplosion2.scale.y = 7;
+            this.bossExplosion2.anchor.set = (0,0);
+            this.bossExplosion2.animations.add('die2', this.loopArray(17,245));
+            this.bossExplosion2.animations.play('die2', 35,false, true);
+            this.boss1.kill();
+            this.screenFlash()
         }
 
 
