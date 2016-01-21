@@ -9,7 +9,11 @@ WhackaMole.BossLevel1 = function(game) {
     this.hammer;
     this.ricochet;
     this.pointerSpot = {};
-    this.heart;
+    this.circle;
+    this.osExplosion;
+    this.hitBox1;
+    this.hitBox2;
+    this.rectangle;
 
 };
 
@@ -29,16 +33,22 @@ WhackaMole.BossLevel1.prototype = {
 
 
     buildWorld: function() {
-        this.add.image(0, 0, 'sky');
+
+        this.sky = this.add.image(0, 0, 'sky');
+        this.sky.tint = 0x002080;
         this.add.image(0, 0, 'stars');
         this.add.image(0, 0, 'land');
-        this.add.image(40, 40, 'sun');
+        this.sun = this.add.image(40, 40, 'sun');
+        this.sun.tint = 0x9f7960;
         this.clouds = this.add.sprite(0, 0, 'clouds');
         this.clouds.anchor.set = (.5);
         this.clouds.animations.add('flow', [0, 1, 2, 3, 4, 5, 6, 7, 8], true);
         this.clouds.animations.play('flow', 2, true);
+        this.clouds.tint = 0x666699;
         this.buildMoleHoles();
         this.initBoss1();
+        this.darkBG = this.add.image(0,0, 'darkBG');
+        this.darkBG.alpha = .8;
         this.scoreText = this.add.text(10, 10, "POINTS " +  this.points);
         this.scoreText.font = 'Press Start 2P';
         this.scoreText.fontWeight = 'bold';
@@ -46,7 +56,42 @@ WhackaMole.BossLevel1.prototype = {
         this.scoreText.fill = 'white';
         this.style = { font: "Press Start 2P", fill: "white", fontSize: 25};
         this.input.onDown.add(this.hammerDown, this);
-        this.initHeart()
+        this.initHeart();
+        this.initHitBox();
+        this.initMoleHeart();
+        this.initScreenFlash();
+
+    },
+
+
+    initScreenFlash: function(){
+        this.bitmap = this.add.bitmapData(this.game.width, this.game.height);
+        this.bitmap.ctx.beginPath();
+        this.bitmap.ctx.rect(0, 0, this.game.width, this.game.height);
+        this.bitmap.ctx.fillStyle = '#ffffff';
+        this.bitmap.ctx.fill();
+        this.drawnObject = this.add.sprite(this.game.centerX, this.game.centerY, this.bitmap);
+        //this.drawnObject.anchor.setTo(.5,.5);
+        this.drawnObject.alpha = 0;
+    },
+
+    initHitBox: function(){
+        this.bmd = this.add.bitmapData(100,100);
+        this.bmd.ctx.beginPath();
+        this.bmd.ctx.rect(0,0,100,100);
+        this.hitBox1 = this.add.sprite(390, 620, this.bmd);
+        this.hitBox1.anchor.setTo(.5,.5);
+        this.hitBox2 = this.add.sprite(140, 600, this.bmd);
+        this.hitBox2.anchor.setTo(.5,.5);
+        this.physics.enable(this.hitBox1, Phaser.Physics.ARCADE);
+        this.hitBox1.enableBody = true;
+        this.hitBox1.inputEnabled=true;
+        this.physics.enable(this.hitBox2, Phaser.Physics.ARCADE);
+        this.hitBox2.enableBody = true;
+        this.hitBox2.inputEnabled=true ;
+        this.hitBox1.events.onInputDown.add(this.bangBoom, this);
+        this.hitBox1.hit = false;
+        this.hitBox2.hit = false;
     },
 
     initBoss1: function() {
@@ -77,9 +122,20 @@ WhackaMole.BossLevel1.prototype = {
         this.heartGroup = this.add.group();
         this.x = 10;
         this.y = 40;
-        for(var i = 0; i < 3; i++) {
+        for(var i = 0; i < 5; i++) {
             this.newHeart = this.heartGroup.create(this.x, this.y, 'heart');
             this.newHeart.anchor.setTo = (0.5,0.5);
+            this.y+=40;
+        }
+    },
+
+    initMoleHeart: function(){
+        this.moleHeartGroup = this.add.group();
+        this.x = this.game.width - 40;
+        this.y = 40;
+        for(var i = 0; i < 5; i++) {
+            this.newMoleHeart = this.moleHeartGroup.create(this.x, this.y, 'purpleheart');
+            this.newMoleHeart.anchor.setTo = (0.5,0.5);
             this.y+=40;
         }
     },
@@ -117,10 +173,21 @@ WhackaMole.BossLevel1.prototype = {
 
     },
 
+    bangBoom:function(box){
+        box.hit = true;
+        this.osExplosion = this.add.sprite(this.pointerSpot.x,this.pointerSpot.y,'osExplode');
+        this.osExplosion.scale.x = 5;
+        this.osExplosion.scale.y = 5;
+        this.osExplosion.anchor.setTo(0.5,0.5);
+        this.osExplosion.animations.add('flow', this.loopArray(20,42));
+        this.osExplosion.animations.play('flow', 25,false, true);
+    },
+
 
     flash: function(){
         this.time.events.repeat(25, 40, this.flashingRed, this);
         this.time.events.repeat(100, 20, this.flashingWhite, this);
+        this.moleHeartGroup.children.pop()
 
     },
 
@@ -133,8 +200,24 @@ WhackaMole.BossLevel1.prototype = {
         this.boss1.tint = 0xffffff;
     },
 
-    update: function() {
+    screenFlash: function(box){
+        this.time.events.repeat(25, 40, this.screenFlashingRed, this);
+        this.time.events.repeat(100, 20, this.screenFlashingWhite, this);
+        this.heartGroup.children.pop()
+    },
 
+    screenFlashingRed: function(){
+        this.drawnObject.alpha = .6;
+        this.drawnObject.tint = Math.random() * 0xffffff; //0xff0000;
+
+    },
+
+    screenFlashingWhite: function(){
+        this.drawnObject.alpha = 0;
+        this.drawnObject.tint = 0xffffff;
+    },
+
+    update: function() {
 
         if (this.boss1.animations.currentFrame.index === 10 || this.boss1.animations.currentFrame.index === 14 || this.boss1.animations.currentFrame.index === 50 || this.boss1.animations.currentFrame.index === 35){
             this.grumble.play('',0,.6);
@@ -148,6 +231,37 @@ WhackaMole.BossLevel1.prototype = {
         if (this.boss1.animations.currentFrame.index === 24 || this.boss1.animations.currentFrame.index === 44){
             this.boom.play('',0,.4);
         }
+
+
+        if(this.boss1.animations.currentFrame.index === 25){
+            this.hitBox2.events.onInputDown.add(this.bangBoom, this);
+        }else{
+            this.hitBox2.events.onInputDown.remove(this.bangBoom, this)
+        }
+
+        if(this.boss1.animations.currentFrame.index === 45){
+            this.hitBox1.events.onInputDown.add(this.bangBoom, this);
+        }else{
+            this.hitBox1.events.onInputDown.remove(this.bangBoom, this)
+        }
+
+        if(this.boss1.animations.currentFrame.index === 26 && !this.hitBox2.hit){
+            this.hitBox2.hit = true;
+            this.screenFlash()
+        }
+
+        if(this.boss1.animations.currentFrame.index === 46 && !this.hitBox1.hit){
+            this.hitBox1.hit = true;
+            this.screenFlash();
+        }
+
+        if(this.boss1.animations.currentFrame.index === 47){
+            this.hitBox1.hit = false;
+        }
+        if(this.boss1.animations.currentFrame.index === 27){
+            this.hitBox2.hit = false;
+        }
+
 
     }
 

@@ -25,7 +25,9 @@ WhackaMole.Preloader.prototype = {
 		this.load.image('bomb', 'assets/whack_assets/images/bomb.png');
 		this.load.image('stars', 'assets/whack_assets/images/stars.png');
 		this.load.image('star1', 'assets/whack_assets/images/star1.png');
+		this.load.image('darkBG', 'assets/whack_assets/images/bk_new.png');
 		this.load.image('heart', 'assets/whack_assets/images/heart.png');
+		this.load.image('purpleheart', 'assets/whack_assets/images/purpleheart.png');
 		this.load.image('start', 'assets/whack_assets/images/newPressStart.png');
 		this.load.image('crosshair', 'assets/whack_assets/images/crosshair.png');
 		this.load.video('intro', 'assets/whack_assets/video/intro3.webm');
