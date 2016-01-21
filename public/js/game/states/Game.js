@@ -256,12 +256,12 @@ WhackaMole.Game.prototype = {
         this.roamingSpaceMoleInit();
 
 
-        this.crosshair = this.add.sprite(this.world.centerX,this.world.centerY, 'crosshair');
-        this.crosshair.anchor.setTo(0.5,0.5);
-        this.physics.arcade.enable(this.crosshair);
-        this.crosshair.collideWorldBounds = true;
-        this.crosshair.body.maxVelocity.setTo(400, 400);
-        this.crosshair.body.collideWorldBounds = true;
+        //this.crosshair = this.add.sprite(this.world.centerX,this.world.centerY, 'crosshair');
+        //this.crosshair.anchor.setTo(0.5,0.5);
+        //this.physics.arcade.enable(this.crosshair);
+        //this.crosshair.collideWorldBounds = true;
+        //this.crosshair.body.maxVelocity.setTo(400, 400);
+        //this.crosshair.body.collideWorldBounds = true;
 
         this.buildEmitter();
 
@@ -606,25 +606,25 @@ WhackaMole.Game.prototype = {
             }
         }
 
-        if (this.user.lastbutton === "LEFT" ) {
-            this.crosshair.body.velocity.x = -400;
-        }
-        else if (this.user.lastbutton === "RIGHT") {
-            this.crosshair.body.velocity.x = 400;
-        } else {this.crosshair.body.velocity.x = 0}
-
-        if (this.user.lastbutton === "UP") {
-            // The speed we'll travel at
-            this.crosshair.body.velocity.y = -400;
-        } else if
-        (this.user.lastbutton === "DOWN") {
-            this.crosshair.body.velocity.y = 400;
-        } else {this.crosshair.body.velocity.y = 0}
-
-        if (this.user.lastbutton === "A" )
-        {
-            this.fireBurst(this.crosshair);
-        }
+        //if (this.user.lastbutton === "LEFT" ) {
+        //    this.crosshair.body.velocity.x = -400;
+        //}
+        //else if (this.user.lastbutton === "RIGHT") {
+        //    this.crosshair.body.velocity.x = 400;
+        //} else {this.crosshair.body.velocity.x = 0}
+        //
+        //if (this.user.lastbutton === "UP") {
+        //    // The speed we'll travel at
+        //    this.crosshair.body.velocity.y = -400;
+        //} else if
+        //(this.user.lastbutton === "DOWN") {
+        //    this.crosshair.body.velocity.y = 400;
+        //} else {this.crosshair.body.velocity.y = 0}
+        //
+        //if (this.user.lastbutton === "A" )
+        //{
+        //    this.fireBurst(this.crosshair);
+        //}
 
         //this.pointUpdate.call(this);
 

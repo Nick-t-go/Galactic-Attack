@@ -102,7 +102,7 @@ WhackaMole.BossLevel1.prototype = {
         this.boss1.inputEnabled = true;
         this.boss1.bossLoop = this.boss1.animations.add('bossLoop',this.loopArray(15,51));
         this.boss1.bossStart = this.boss1.animations.add('bossStart', this.loopArray(0,51));
-        this.boss1.bossStart.play(6,false);
+        this.boss1.bossStart.play(5,false);
         this.boss1.bossStart.onComplete.add(this.bossAnimationLoop, this);
     },
 
@@ -220,51 +220,54 @@ WhackaMole.BossLevel1.prototype = {
 
     update: function() {
 
-        if (this.boss1.animations.currentFrame.index === 10 || this.boss1.animations.currentFrame.index === 14 || this.boss1.animations.currentFrame.index === 50 || this.boss1.animations.currentFrame.index === 35){
-            this.grumble.play('',0,.6);
+
+    if(this.boss1.exists) {
+        if (this.boss1.animations.currentFrame.index === 10 || this.boss1.animations.currentFrame.index === 14 || this.boss1.animations.currentFrame.index === 50 || this.boss1.animations.currentFrame.index === 35) {
+            this.grumble.play('', 0, .6);
             this.boss1.events.onInputDown.remove(this.ricochetAnimation, this);
             this.boss1.events.onInputDown.add(this.flash, this);
-        } else{
+        } else {
             this.boss1.events.onInputDown.remove(this.flash, this);
             this.boss1.events.onInputDown.add(this.ricochetAnimation, this);
         }
 
-        if (this.boss1.animations.currentFrame.index === 24 || this.boss1.animations.currentFrame.index === 44){
-            this.boom.play('',0,.4);
+        if (this.boss1.animations.currentFrame.index === 24 || this.boss1.animations.currentFrame.index === 44) {
+            this.boom.play('', 0, .4);
         }
 
 
-        if(this.boss1.animations.currentFrame.index === 25){
+        if (this.boss1.animations.currentFrame.index === 25) {
             this.hitBox2.events.onInputDown.add(this.bangBoom, this);
-        }else{
+        } else {
             this.hitBox2.events.onInputDown.remove(this.bangBoom, this)
         }
 
-        if(this.boss1.animations.currentFrame.index === 45){
+        if (this.boss1.animations.currentFrame.index === 45) {
             this.hitBox1.events.onInputDown.add(this.bangBoom, this);
-        }else{
+        } else {
             this.hitBox1.events.onInputDown.remove(this.bangBoom, this)
         }
 
-        if(this.boss1.animations.currentFrame.index === 26 && !this.hitBox2.hit){
+        if (this.boss1.animations.currentFrame.index === 26 && !this.hitBox2.hit) {
             this.hitBox2.hit = true;
             this.screenFlash()
         }
 
-        if(this.boss1.animations.currentFrame.index === 46 && !this.hitBox1.hit){
+        if (this.boss1.animations.currentFrame.index === 46 && !this.hitBox1.hit) {
             this.hitBox1.hit = true;
             this.screenFlash();
         }
 
-        if(this.boss1.animations.currentFrame.index === 47){
+        if (this.boss1.animations.currentFrame.index === 47) {
             this.hitBox1.hit = false;
         }
-        if(this.boss1.animations.currentFrame.index === 27){
+        if (this.boss1.animations.currentFrame.index === 27) {
             this.hitBox2.hit = false;
         }
+    }
 
         if(this.moleHeartGroup.children.length === 0 && this.over ===true){
-            this.over = false
+            this.over = false;
             this.bossExplosion = this.add.sprite(75,350,'osExplode');
             this.bossExplosion.scale.x = 7;
             this.bossExplosion.scale.y = 7;
