@@ -349,11 +349,13 @@ WhackaMole.BossLevel1.prototype = {
 
         if(this.heartGroup.children.length === 0 && this.over === true){
             this.over = false;
+            this.boss1Music.stop();
             this.playerGameOver()
         }
 
         if(this.moleHeartGroup.children.length === 0 && this.over ===true){
             this.over = false;
+            this.boss1Music.stop()
             this.bossExplode();
 
         }
