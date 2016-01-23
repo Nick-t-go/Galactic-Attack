@@ -155,6 +155,10 @@ WhackaMole.Game.prototype = {
         this.gameover = true;
         this.music.stop();
         this.overmessage = this.add.bitmapText(this.world.centerX-180, this.world.centerY-40, 'eightbitwonder', 'GAME OVER', 42);
+        this.overovermessage = this.moleTallyText = this.add.text(this.world.centerX, this.world.centerY-80,'Try Again',  {fontSize:40, fill: "white", align: "center" });
+        this.overovermessage.font = 'Press Start 2P';
+        this.overovermessage.anchor.set(0.5);
+        this.molesWhacked > 0 ? this.overovermessage.text = 'Enter': this.overovermessage.text = 'Try Again';
         this.molesWhacked > 0 ? this.overmessage.text = 'Boss Level': this.overmessage.text = 'Game Over';
         this.moleTallyText = this.add.text(this.world.centerX, this.world.centerY + 25, this.num1 + ' Moles Killed ',  {fontSize:20, fill: "white", align: "center" });
         this.moleTallyText.font = 'Press Start 2P';
@@ -167,6 +171,7 @@ WhackaMole.Game.prototype = {
         this.bombTallyText.anchor.set(0.5);
         this.max = Math.max(this.killTally.mole, this.killTally.bomb, this.killTally.spacemole);
         this.time.events.repeat(100, this.max, this.finalTally, this);
+        this.overovermessage.align = "center";
         this.overmessage.align = "center";
         this.overmessage.inputEnabled = true;
         this.overmessage.events.onInputDown.addOnce(this.quitGame, this);
@@ -428,27 +433,7 @@ WhackaMole.Game.prototype = {
         });
     },
 
-    makeItRain: function() {
-        this.emitter = this.add.emitter(this.world.centerX, 0, 400);
 
-        this.emitter.width = this.world.width;
-        // emitter.angle = 30; // uncomment to set an angle for the rain.
-
-        this.emitter.makeParticles('stars');
-
-        this.emitter.minParticleScale = 0.1;
-        this.emitter.maxParticleScale = 0.5;
-
-        this.emitter.setYSpeed(300, 500);
-        this.emitter.setXSpeed(-5, 5);
-
-        this.emitter.minRotation = 0;
-        this.emitter.maxRotation = 0;
-
-        this.emitter.start(false, 1600, 5, 0);
-
-
-    },
 
     paused: function () {
 
@@ -516,12 +501,12 @@ WhackaMole.Game.prototype = {
             this.killTally.lastkilled = sm;
             this.killTally.spacemole ++;
             this.ouch.play();
-            this.osExplosion = this.add.sprite(sm.x,sm.y,'osExplode');
+            this.osExplosion = this.add.sprite(sm.x - 40,sm.y - 10,'osExplode');
             this.osExplosion.scale.x = 2;
             this.osExplosion.scale.y = 2;
-            this.osExplosion.anchor.set = (.5);
+            //this.osExplosion.anchor.set = (0,0);
             this.osExplosion.animations.add('flow', this.loopArray(206,245));
-            this.osExplosion.animations.play('flow', 25,false, true);
+            this.osExplosion.animations.play('flow', 30,false, true);
             this.roamingSpaceMole.kill();
             this.time.events.add(Phaser.Timer.SECOND * 5, this.roamingSpaceMoleInit, this);
             this.molesWhacked += 200;
@@ -553,7 +538,6 @@ WhackaMole.Game.prototype = {
 
     quitGame: function(pointer) {
         if(this.molesWhacked > 0){
-            console.log(this.overmessage)
             this.ding.play();
             this.state.start('BossLevel1', true, false, this.molesWhacked);
         } else {

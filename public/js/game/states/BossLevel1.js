@@ -33,6 +33,7 @@ WhackaMole.BossLevel1.prototype = {
 
 
     buildWorld: function() {
+        this.bonusPoints = 0;
         this.over = true;
         this.sky = this.add.image(0, 0, 'sky');
         this.sky.tint = 0x002080;
@@ -55,11 +56,36 @@ WhackaMole.BossLevel1.prototype = {
         this.scoreText.fontSize = 20;
         this.scoreText.fill = 'white';
         this.style = { font: "Press Start 2P", fill: "white", fontSize: 25};
+        this.ding = this.add.audio('select_audio');
+        this.blip = this.add.audio('blip');
         this.input.onDown.add(this.hammerDown, this);
         this.initHeart();
         this.initHitBox();
         this.initMoleHeart();
         this.initScreenFlash();
+        this.makeItRain();
+
+    },
+
+    makeItRain: function() {
+        this.emitter = this.add.emitter(this.world.centerX, 0, 400);
+
+        this.emitter.width = this.world.width;
+        // emitter.angle = 30; // uncomment to set an angle for the rain.
+
+        this.emitter.makeParticles('stars');
+
+        this.emitter.minParticleScale = 0.1;
+        this.emitter.maxParticleScale = 0.5;
+
+        this.emitter.setYSpeed(300, 500);
+        this.emitter.setXSpeed(-5, 5);
+
+        this.emitter.minRotation = 0;
+        this.emitter.maxRotation = 0;
+
+        this.emitter.start(false, 1600, 5, 0);
+
 
     },
 
@@ -218,6 +244,61 @@ WhackaMole.BossLevel1.prototype = {
         this.drawnObject.tint = 0xffffff;
     },
 
+    bossExplode: function(){
+        this.bonusTallyText = this.add.text(this.world.centerX, this.world.centerY,  'Bonus ' + this.bonusPoints, {fontSize:30, fill: "white", align: "center" });
+        this.bonusTallyText.font = 'Press Start 2P';
+        this.bonusTallyText.anchor.set(0.5);
+        this.time.events.repeat(10, 200, this.finalTally, this);
+        this.bossExplosion = this.add.sprite(75,350,'osExplode');
+        this.bossExplosion.scale.x = 7;
+        this.bossExplosion.scale.y = 7;
+        this.bossExplosion.anchor.set = (0,0);
+        this.bossExplosion1 = this.bossExplosion.animations.add('die', this.loopArray(17,245));
+        this.bossExplosion1.onComplete.add(this.screenFlash, this);
+        this.bossExplosion1.play(60,false, true);
+        this.bossExplosion1.play(45, false, true);
+        this.bossExplosion2 = this.bossExplosion.animations.add('die2', this.loopArray(17,200));
+        this.bossExplosion2.play(35,false, true);
+        this.bossExplosion2.onComplete.add(this.nextLevel, this);
+        this.boss1.kill();
+        this.screenFlash();
+    },
+
+
+    finalTally: function(textArray){
+        if (this.bonusPoints < 10000) {
+            this.bonusPoints += 50;
+            this.bonusTallyText.text = "Bonus "+ this.bonusPoints;
+        }
+        this.blip.play();
+    },
+
+    nextLevel: function(){
+        this.finalPoints = this.points + this.bonusPoints
+        this.scoreText.setText('Final Score ' + this.finalPoints);
+        this.overmessage = this.add.bitmapText(this.world.centerX-180, this.world.centerY-80, 'eightbitwonder', 'GAME OVER', 42);
+        this.overmessage.inputEnabled = true;
+        this.overmessage.events.onInputDown.addOnce(this.quitGame, this);
+    },
+
+
+    playerGameOver: function(){
+        this.overmessage = this.add.bitmapText(this.world.centerX-180, this.world.centerY-40, 'eightbitwonder', 'GAME OVER', 42);
+        this.overovermessage = this.moleTallyText = this.add.text(this.world.centerX, this.world.centerY-80,'Try Again',  {fontSize:40, fill: "white", align: "center" });
+        this.overovermessage.font = 'Press Start 2P';
+        this.overovermessage.anchor.set(0.5);
+        this.overmessage.inputEnabled = true;
+        this.overmessage.events.onInputDown.addOnce(this.quitGame, this);
+        this.boss1.laughLoop = this.boss1.animations.add('laughLoop',this.loopArray(27,35));
+        this.boss1.bossLoop.stop();
+        this.boss1.laughLoop.play(5,true,false)
+    },
+
+    quitGame: function(pointer) {
+        this.ding.play();
+        this.state.start('StartMenu', true, false);
+    },
+
     update: function() {
 
 
@@ -266,24 +347,15 @@ WhackaMole.BossLevel1.prototype = {
         }
     }
 
+        if(this.heartGroup.children.length === 0 && this.over === true){
+            this.over = false;
+            this.playerGameOver()
+        }
+
         if(this.moleHeartGroup.children.length === 0 && this.over ===true){
             this.over = false;
-            this.bossExplosion = this.add.sprite(75,350,'osExplode');
-            this.bossExplosion.scale.x = 7;
-            this.bossExplosion.scale.y = 7;
-            this.bossExplosion.anchor.set = (0,0);
-            this.bossExplosion1 = this.bossExplosion.animations.add('die', this.loopArray(17,245));
-            this.bossExplosion1.onComplete.add(this.screenFlash, this);
-            this.bossExplosion1.play(60,false, true);
-            this.bossExplosion1.play(100, false, true);
-            this.bossExplosion2 = this.add.sprite(75,350,'osExplode');
-            this.bossExplosion2.scale.x = 7;
-            this.bossExplosion2.scale.y = 7;
-            this.bossExplosion2.anchor.set = (0,0);
-            this.bossExplosion2.animations.add('die2', this.loopArray(17,245));
-            this.bossExplosion2.animations.play('die2', 35,false, true);
-            this.boss1.kill();
-            this.screenFlash()
+            this.bossExplode();
+
         }
 
 
