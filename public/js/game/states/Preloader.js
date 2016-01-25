@@ -63,7 +63,7 @@ WhackaMole.Preloader.prototype = {
 	update: function () {
 		if(this.cache.isSoundDecoded('game_audio') && this.ready == false) {
 			this.ready = true;
-			this.state.start('BossLevel1');
+			this.state.start('StartMenu');
 		}
 	}
 };
