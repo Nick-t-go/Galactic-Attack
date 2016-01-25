@@ -39,8 +39,8 @@ WhackaMole.BossLevel1.prototype = {
         this.sky.tint = 0x002080;
         this.add.image(0, 0, 'stars');
         this.add.image(0, 0, 'land');
-        this.sun = this.add.image(40, 40, 'sun');
-        this.sun.tint = 0x9f7960;
+        this.moon = this.add.image(40, 40, 'moon');
+        this.moon.tint = 0xffd27f;
         this.clouds = this.add.sprite(0, 0, 'clouds');
         this.clouds.anchor.set = (.5);
         this.clouds.animations.add('flow', [0, 1, 2, 3, 4, 5, 6, 7, 8], true);
