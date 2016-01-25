@@ -14,7 +14,8 @@ WhackaMole.Preloader.prototype = {
 		this.titleText.anchor.setTo(0.5, 0.5);
 		this.load.image('titlescreen', 'assets/whack_assets/images/alienInvasion.png');
 		this.load.bitmapFont('eightbitwonder', 'assets/whack_assets/fonts/eightbitwonder.png', 'assets/whack_assets/fonts/eightbitwonder.fnt');
-		this.load.image('land', 'assets/whack_assets/images/newMeadow.png');
+		this.load.image('land', 'assets/whack_assets/images/newMeadowDark.png');
+		this.load.image('bossGrass', 'assets/whack_assets/images/grassyknoll.png' );
 		this.load.image('sky', 'assets/whack_assets/images/newSky.png');
 		this.load.image('spacemole', 'assets/whack_assets/images/newSpaceMole.png');
 		this.load.image('molehole', 'assets/whack_assets/images/newHole.png');
