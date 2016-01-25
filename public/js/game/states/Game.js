@@ -461,7 +461,6 @@ WhackaMole.Game.prototype = {
 
     pointsTweener: function(kill, kScore){
         this.displayText = "Bad";
-        console.log(this.killTally.lastkilled.key)
         if (kScore!=false && this.killTally.lastkilled.key == "alienmoledie") {
             this.displayText = (kScore * this.multiplyer).toString();
             this.multiplyer++;
