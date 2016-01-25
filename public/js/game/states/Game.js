@@ -288,10 +288,10 @@ WhackaMole.Game.prototype = {
         this.newMole.enableBody = true;
         this.newMole.inputEnabled = true;
         this.newMole.events.onInputDown.add(this.moleCollision, this);
-        this.newMole.upAnimation = this.newMole.animations.add('Up',[1,2,3,4,5,6,5,6,5,6,6,5,4,3,2,1,0,0,0,0,0,0]);
+        this.newMole.upAnimation = this.newMole.animations.add('Up',[0,0,1,1,2,2,3,3,4,4,5,5,5,5,4,4,3,3,2,2,1,1,0,0]);
         this.newMole.upAnimation.onComplete.add(this.respawn, this);
-        this.newMole.dieAnimation = this.newMole.animations.add('moledie',[7,8,9,10,11,12,13,14,15]);
-        this.newMole.dieAnimation.onComplete.add(this.respawn, this);
+        //this.newMole.dieAnimation = this.newMole.animations.add('moledie',[7,8,9,10,11,12,13,14,15]);
+        //this.newMole.dieAnimation.onComplete.add(this.respawn, this);
         var random = this.rnd.integerInRange(10, 20);
         this.newMole.upAnimation.play(random, false, true);
 
@@ -315,6 +315,9 @@ WhackaMole.Game.prototype = {
             this.killTally.lastkilled = m;
             this.killTally.mole ++;
             m.inputEnabled=false;
+            m.loadTexture('alienmoledie',0);
+            m.dieAnimation = m.animations.add('moledie',[7,8,9,10,11,12,13,14,15]);
+            m.dieAnimation.onComplete.add(this.respawn, this);
             m.dieAnimation.play(20, false, true);
             this.molesWhacked += (100 * this.multiplyer);
             this.ouch.play();
@@ -459,7 +462,7 @@ WhackaMole.Game.prototype = {
     pointsTweener: function(kill, kScore){
         this.displayText = "Bad";
         console.log(this.killTally.lastkilled.key)
-        if (kScore!=false && this.killTally.lastkilled.key == "mole") {
+        if (kScore!=false && this.killTally.lastkilled.key == "alienmoledie") {
             this.displayText = (kScore * this.multiplyer).toString();
             this.multiplyer++;
             console.log(this.displayText)
