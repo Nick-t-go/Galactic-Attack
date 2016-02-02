@@ -274,9 +274,9 @@ WhackaMole.BossLevel1.prototype = {
     },
 
     nextLevel: function(){
-        this.finalPoints = this.points + this.bonusPoints
+        this.finalPoints = this.points + this.bonusPoints;
         this.scoreText.setText('Final Score ' + this.finalPoints);
-        this.overmessage = this.add.bitmapText(this.world.centerX-180, this.world.centerY-80, 'eightbitwonder', 'GAME OVER', 42);
+        this.overmessage = this.add.bitmapText(this.world.centerX-180, this.world.centerY-80, 'eightbitwonder', 'You Win', 42);
         this.overmessage.inputEnabled = true;
         this.overmessage.events.onInputDown.addOnce(this.quitGame, this);
     },
@@ -355,7 +355,7 @@ WhackaMole.BossLevel1.prototype = {
 
         if(this.moleHeartGroup.children.length === 0 && this.over ===true){
             this.over = false;
-            this.boss1Music.stop()
+            this.boss1Music.stop();
             this.bossExplode();
 
         }
